@@ -6,11 +6,11 @@ BACKUP_CONFIG="$HOME/.backup_config"
 
 # Make dirs if they don't already exist
 mkdir -p $CONFIG_DIR
-mkdir -p $BACKUP_CONFIG
+mkdir -p "$BACKUP_CONFIG/.config"
 
 # Usage: create_backup_config <original config> <backup filename>
 create_backup_config() {
-  if [ -d $1 ]; then 
+  if [ -e $1 ]; then 
     echo "Creating backup of $1 in $BACKUP_CONFIG"
     mv $1 "$BACKUP_CONFIG/$2.bak-$(date +%s)"
   fi
@@ -26,10 +26,17 @@ create_link() {
 
 # Functions for each application so it's easier to enable/disable
 link_neovim() {
+  rm -rf "$HOME/.local/{share,state}/nvim"
   create_link "$CONFIG_DIR/nvim" ".config/nvim"
 }
 
 link_tmux() {
+  # Install tpm if not already present
+  if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+    mkdir -p "$HOME/.tmux/plugins"
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  fi
+
   create_link "$HOME/.tmux.conf" ".tmux.conf"
   echo "Press c-space + I to install tmux plugins"
 }

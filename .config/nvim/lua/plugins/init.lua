@@ -22,9 +22,13 @@ return {
         "javascript",
         "typescript",
         "tsx",
+        "markdown",
+        "markdown_inline",
         "json",
         "go",
         "gomod",
+        "rust",
+        "sql"
       },
     },
   },
@@ -32,6 +36,18 @@ return {
     "echasnovski/mini.surround",
     version = "*",
     lazy = false,
+  },
+  {
+    "tadmccorkle/markdown.nvim",
+    ft = "markdown",
+    opts = {}
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
   },
   {
     "folke/snacks.nvim",

@@ -208,7 +208,12 @@ eval "$(zoxide init zsh)"
 # config.fzf
 # =============================================================================
 
-source <(fzf --zsh)
+if [ -f ~/.fzf.zsh ]; then
+  source ~/.fzf.zsh
+else
+  source <(fzf --zsh)
+fi
+
 export FZF_DEFAULT_OPTS="--layout=reverse" 
 
 # =============================================================================
@@ -250,3 +255,4 @@ alias secret="openssl rand -hex 32"
 
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
+

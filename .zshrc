@@ -216,48 +216,17 @@ export FZF_DEFAULT_OPTS="--layout=reverse"
 # config.aliases
 # =============================================================================
 
-alias v=nvim
-alias t=tmux
+# platform specific
+if [[ "$os_name" == "Linux" ]]; then
+  source "$DOTFILES/aliases/linux.zsh"
+fi
 
-# Overrides
-alias vim=nvim
-alias bat=batcat
-alias cat=batcat # Should just be "bat" on mac
-alias cd=z
+if [[ "$os_name" == "Darwin" ]]; then
+  source "$DOTFILES/aliases/macos.zsh"
+fi
 
-# zsh
-alias config="$EDITOR $HOME/.zshrc"
-alias reload="source $HOME/.zshrc"
-
-# tmux
-alias trs="tmux rename-session"
-alias trw="tmux rename-window"
-
-# ls
-alias l="eza -1"
-alias ls="eza"
-alias la='exa -laghm@ --all --icons --git --color=always'
-
-# cd 
-alias ..="cd .."
-alias ...="cd ../.."
-alias proj="cd $PROJECTS"
-alias dot="cd $DOTFILES"
-
-# fnm
-alias nvm="fnm" 
-
-# docker/k8s
-alias d="docker"
-alias k="kubectl"
-alias kctx="kubectl set-context"
-alias kgp="kubectl get pods"
-
-# git
-alias gs="git status"
-alias gc="git commit -m" # Must provide your own message
-alias gp="git push"
-alias gl="git log --oneline --pretty"
+# Keep aliases separate for organization
+source "$DOTFILES/aliases/common.zsh"
 
 # One-liners
 # ==========

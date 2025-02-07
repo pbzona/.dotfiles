@@ -16,11 +16,15 @@ I've actually been using tmux for a while so this one is pretty comprehensive. H
 
 I found that Oh My Zsh became pretty slow, which I'm sure is a skill issue. The way I solved it was to use zinit and handle a lot more configuration myself, so there's quite a bit going on here.
 
+### elinks
+
+I don't customize elinks much tbh, but I might start so I dumped the base config here.
+
 ## Custom 
 
 ### bin/ - soon
 
-These are custom tools that are meant to be invoked directly from the command line. They do things that mightbe useful!
+These are custom tools that are meant to be invoked directly from the command line. They do things that might be useful!
 
 ### scripts/ - soon
 

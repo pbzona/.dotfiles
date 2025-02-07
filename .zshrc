@@ -1,18 +1,18 @@
 # Need this for some os-specific settings
-os_name=$(uname -s)
+source $HOME/.dotfiles/scripts/lib.sh
+OS=$(detect_os)
 
 # Searchable sections:
 #
+#   config.env
+#   config.directories
 #   config.zinit
 #     config.zinit.plugins
 #     config.zinit.snippets
 #     config.zinit.config
-#   config.env
-#   config.directories
 #   config.path
 #   config.history
 #   config.sourcing
-#   config.neovim
 #   config.fnm
 #   config.node
 #   config.pnpm
@@ -21,6 +21,35 @@ os_name=$(uname -s)
 #   config.fzf
 #   config.aliases
 #   config.prompt
+
+# =============================================================================
+# ENVIRONMENT
+# config.env
+# =============================================================================
+
+export VISUAL="nvim"
+export EDITOR="nvim"
+export TERM="tmux-256color"
+
+export GITHUBUSER="pbzona"
+
+# Using mostly defaults for predictability
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+export XDG_CONFIG_DIRS="/etc/xdg"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+
+# =============================================================================
+# DIRECTORIES
+# config.directories
+# =============================================================================
+
+export PROJECTS="$HOME/Projects"
+export DOTFILES="$HOME/.dotfiles"
+
 
 # =============================================================================
 # ZINIT
@@ -69,25 +98,6 @@ zinit snippet OMZP::sudo
 autoload -Uz compinit && compinit
 
 zinit cdreplay -q
-
-# =============================================================================
-# ENVIRONMENT
-# config.env
-# =============================================================================
-
-export VISUAL="nvim"
-export EDITOR="nvim"
-export TERM="tmux-256color"
-
-export GITHUBUSER="pbzona"
-
-# =============================================================================
-# DIRECTORIES
-# config.directories
-# =============================================================================
-
-export PROJECTS="$HOME/Projects"
-export DOTFILES="$HOME/.dotfiles"
 
 # =============================================================================
 # PATH CONFIG 
@@ -147,27 +157,6 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 source "$HOME/.privaterc"
 
 # =============================================================================
-# NEOVIM
-# config.neovim
-# =============================================================================
-
-# I prefer to install neovim latest from github to ensure I have all the latest changes.
-# It's very likely that an installation from apt or homebrew would override it, so make
-# sure to remove those first or adjust the PATH here accordingly.
-
-neovim_bin=""
-
-if [[ "$os_name" == "Linux" ]]; then
-  neovim_bin="/opt/nvim-linux64/bin"
-fi
-
-if [[ "$os_name" == "Darwin" ]]; then
-  neovim_bin="/opt/nvim-macos-arm64/bin"
-fi
-
-export PATH="$PATH:$neovim_bin"
-
-# =============================================================================
 # FNM (Node.js)
 # config.fnm config.node
 # =============================================================================
@@ -222,11 +211,11 @@ export FZF_DEFAULT_OPTS="--layout=reverse"
 # =============================================================================
 
 # platform specific
-if [[ "$os_name" == "Linux" ]]; then
+if [[ "$OS" == "linux" ]]; then
   source "$DOTFILES/aliases/linux.zsh"
 fi
 
-if [[ "$os_name" == "Darwin" ]]; then
+if [[ "$OS" == "macos" ]]; then
   source "$DOTFILES/aliases/macos.zsh"
 fi
 

@@ -62,7 +62,7 @@ return {
       },
       words = {
         enabled = true,
-      },
+      }
     },
   },
 }

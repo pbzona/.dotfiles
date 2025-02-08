@@ -12,6 +12,7 @@ map("i", "jk", "<ESC>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
 -- Toggle render-markdown
-map("n", "<leader> + rm", function()
-  require('render-markdown').buf_toggle()
+map("n", "<Leader>rm", function()
+  require("render-markdown").buf_toggle()
 end, { desc = "Toggle render-markdown for current buffer" })
+

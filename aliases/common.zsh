@@ -1,6 +1,10 @@
-alias v=nvim
-alias t=tmux
+# Short
 alias c=clear
+alias d=docker
+alias k=kubectl
+alias l="eza -1"
+alias t=tmux
+alias v=nvim
 
 # Overrides
 alias vim=nvim
@@ -17,7 +21,6 @@ alias trs="tmux rename-session"
 alias trw="tmux rename-window"
 
 # ls
-alias l="eza -1"
 alias ls="eza"
 alias la='exa -laghm@ --all --icons --git --color=always'
 
@@ -31,8 +34,6 @@ alias dot="cd $DOTFILES"
 alias nvm="fnm" 
 
 # docker/k8s
-alias d="docker"
-alias k="kubectl"
 alias kctx="kubectl set-context"
 alias kgp="kubectl get pods"
 

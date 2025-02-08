@@ -20,6 +20,7 @@ OS=$(detect_os)
 #   config.path
 #   config.history
 #   config.sourcing
+#   config.mise / config.tools
 #   config.fnm
 #   config.node
 #   config.pnpm
@@ -162,6 +163,13 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # =============================================================================
 
 source "$HOME/.privaterc"
+
+# =============================================================================
+# MISE / DEV TOOLS
+# config.mise config.tools
+# =============================================================================
+
+eval "$(~/.local/bin/mise activate zsh)"
 
 # =============================================================================
 # FNM (Node.js)

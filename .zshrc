@@ -1,3 +1,10 @@
+#
+#  _ __ | |__ _______| |__  
+# | '_ \| '_ \_  / __| '_ \ 
+# | |_) | |_) / /\__ \ | | |
+# | .__/|_.__/___|___/_| |_|
+# |_|                       
+#
 # Need this for some os-specific settings
 source $HOME/.dotfiles/scripts/lib.sh
 OS=$(detect_os)

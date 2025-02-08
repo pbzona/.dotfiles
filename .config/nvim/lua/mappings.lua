@@ -12,7 +12,10 @@ map("i", "jk", "<ESC>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
 -- Toggle render-markdown
-map("n", "<Leader>rm", function()
+map("n", "<leader>rm", function()
   require("render-markdown").buf_toggle()
 end, { desc = "Toggle render-markdown for current buffer" })
 
+-- Searching
+map("n", "<leader>fo", require("telescope.builtin").oldfiles, { desc = "[F]ind recently [O]pened files" })
+map("n", "<leader>fh", require("telescope.builtin").help_tags, { desc = "[F]ind [H]elp" })

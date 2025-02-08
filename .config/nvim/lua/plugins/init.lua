@@ -28,7 +28,7 @@ return {
         "go",
         "gomod",
         "rust",
-        "sql"
+        "sql",
       },
     },
   },
@@ -40,11 +40,11 @@ return {
   {
     "tadmccorkle/markdown.nvim",
     ft = "markdown",
-    opts = {}
+    opts = {},
   },
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {},
@@ -62,7 +62,7 @@ return {
       },
       words = {
         enabled = true,
-      }
+      },
     },
   },
 }

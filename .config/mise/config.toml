@@ -1,7 +1,69 @@
 [tools]
-deno = "2"
-node = "22"
+# Core Runtimes/Languages
 bun = "1.2"
-rust = "stable"
-python = "3.11"
+deno = "2"
+elixir = "1.18"
+erlang = "27"
 go = "1.23"
+node = "22"
+python = "3.11"
+rust = "stable"
+
+# Dependencies
+bat = "latest"
+eza = "latest"
+jq = "latest"
+ripgrep = "latest"
+
+# Main
+github-cli = "latest"
+pnpm = { version = "latest", postinstall = "corepack enable pnpm"}
+xh = "latest"
+
+# Infra
+doctl = "latest"
+flyctl = "latest"
+
+# Utilities
+age = "latest"
+atlas = "latest"
+choose = "latest"
+delta = "latest"
+duf = "latest"
+dust = "latest"
+fd = "latest"
+ffmpeg = "latest"
+glow = "latest"
+jc = "latest"
+jd = "latest"
+jnv = "latest"
+jqp = "latest"
+killport = "latest"
+lazydocker = "latest"
+mitmproxy = "latest"
+mkcert = "latest"
+nerdctl = "latest"
+peco = "latest"
+qsv = "latest"
+rclone = "latest"
+redo = "latest"
+rlwrap = "latest"
+schemacrawler = "latest"
+shellcheck = "latest"
+sops = "latest"
+sqlite = "latest"
+tree-sitter = "latest"
+usage = "latest"
+usql = "latest"
+wrk = "latest"
+wtfutil = "latest"
+yj = "latest"
+yq = "latest"
+yt-dlp = "latest"
+
+# JS/TS
+biome = "latest"
+
+[settings]
+color = true
+idiomatic_version_file = true

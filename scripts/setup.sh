@@ -44,8 +44,21 @@ installer & # Starts the server as a bg process
 #
 
 # neovim
-(cd "$BIN_DIR" && curl -s "http://localhost:3000/neovim/neovim?as=nvim" | bash)
+command -v nvim 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/neovim/neovim?as=nvim" | bash)
 # fzf
-(cd "$BIN_DIR" && curl -s "http://localhost:3000/junegunn/fzf" | bash)
+command -v fzf 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/junegunn/fzf" | bash)
 # zoxide
-(cd "$BIN_DIR" && curl -s "http://localhost:3000/ajeetdsouza/zoxide" | bash)
+command -v zoxide 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/ajeetdsouza/zoxide" | bash)
+
+# Other packages that I'm not sure how to categorize
+#
+
+# Portal: p2p file transfer
+# https://github.com/SpatiumPortae/portal
+(cd "$BIN_DIR" && curl -s "http://localhost:3000/SpatiumPortae/portal" | bash)
+
+# Posting: TUI REST API client
+# https://github.com/darrenburns/posting
+# (Using uv because it's Python, not a compiled binary)
+uv tool install --python 3.12 posting
+

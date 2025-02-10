@@ -157,6 +157,8 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+command -v portal 2>/dev/null && eval $(portal completion zsh)
+
 # =============================================================================
 # SOURCING
 # config.sourcing
@@ -260,3 +262,5 @@ alias secret="openssl rand -hex 32"
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
+
+. "$HOME/.local/share/../bin/env"

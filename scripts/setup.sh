@@ -12,6 +12,14 @@ if [[ ! "$(echo $SHELL | tr '/' '\n' | tail -n 1)" == "zsh" ]]; then
   exit 1
 fi
 
+# If mac get some cool fonts for the terminal
+# If linux I'm prob accessing remotely so doesn't matter
+source "$DOTFILES/scripts/lib.sh"
+OS=$(detect_os)
+if [[ $OS="macos" ]]; then
+  brew install font-geist-mono-nerd-font font-lilex-nerd-font
+fi
+
 # Install mise to manage packages
 #
 # see: https://github.com/jdx/mise

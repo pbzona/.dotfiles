@@ -16,7 +16,7 @@ fi
 # If linux I'm prob accessing remotely so doesn't matter
 source "$DOTFILES/scripts/lib.sh"
 OS=$(detect_os)
-if [[ $OS="macos" ]]; then
+if [[ $OS == "macos" ]]; then
   brew install font-geist-mono-nerd-font font-lilex-nerd-font
 fi
 
@@ -57,6 +57,18 @@ command -v nvim 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/
 command -v fzf 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/junegunn/fzf" | bash)
 # zoxide
 command -v zoxide 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/ajeetdsouza/zoxide" | bash)
+
+source "$DOTFILES/scripts/packages/install-core-packages.sh"
+
+# Configure other packages to install here
+# Default is to include everything
+#
+
+WEB_PACKAGES=true
+
+if [[ "$WEB_PACKAGES" ]]; then
+  source "$DOTFILES/scripts/packages/install-web-packages.sh"
+fi
 
 # Other packages that I'm not sure how to categorize
 #

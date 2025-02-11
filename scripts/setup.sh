@@ -65,10 +65,10 @@ source "$DOTFILES/scripts/packages/install-core-packages.sh"
 #
 
 WEB_PACKAGES=true
+CHEATSHEET_PACKAGES=true
 
-if [[ "$WEB_PACKAGES" ]]; then
-  source "$DOTFILES/scripts/packages/install-web-packages.sh"
-fi
+"$WEB_PACKAGES" && source "$DOTFILES/scripts/packages/install-web-packages.sh"
+"$CHEATSHEET_PACKAGES" && source "$DOTFILES/scripts/packages/install-cheatsheet-packages.sh"
 
 # Other packages that I'm not sure how to categorize
 #

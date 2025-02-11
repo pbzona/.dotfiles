@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+source "$DOTFILES/scripts/lib.sh"
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: mkbin <filename> <optional: interpreter>"
+  exit 1
+fi
+
+create_executable "$DOTFILES/bin" $1 $2 

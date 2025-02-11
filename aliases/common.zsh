@@ -19,10 +19,11 @@ alias ta="tmux attach"
 alias td="tmux detach"
 alias trs="tmux rename-session"
 alias trw="tmux rename-window"
+alias ts="tmux-sessionizer" # Custom script in ~/.local/bin
 
 # ls
 alias ls="eza"
-alias la='exa -laghm@ --all --icons --git --color=always'
+alias la="eza -laghm@ --all --icons --git --color=always"
 
 # cd 
 alias ..="cd .."

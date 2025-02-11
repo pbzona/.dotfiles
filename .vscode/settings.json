@@ -1,0 +1,206 @@
+{
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.tabSize": 2
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "vscode.markdown-language-features",
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.quickSuggestions": {
+      "other": "off",
+      "comments": "off",
+      "strings": "off"
+    },
+  },
+  "[mdx]": {
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.quickSuggestions": {
+      "other": "off",
+      "comments": "off",
+      "strings": "off"
+    },
+  },
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.formatOnType": true
+  },
+  "editor.accessibilitySupport": "off",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.colorDecorators": false,
+  "editor.fontFamily": "'Geist Mono', 'Berkeley Mono Variable', 'Dank Mono', 'Fira Code', Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 16,
+  "editor.fontVariations": true,
+  "editor.fontWeight": "normal",
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.formatOnType": false,
+  "editor.guides.bracketPairs": true,
+  "editor.parameterHints.enabled": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
+  "emmet.excludeLanguages": [
+    "markdown"
+  ],
+  "emmet.includeLanguages": {
+    "django-html": "html"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "eslint.format.enable": true,
+  "git.autofetch": true,
+  "git.ignoreMissingGitWarning": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "prettier.singleQuote": true,
+  "solargraph.definitions": false,
+  "terminal.integrated.fontSize": 14,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "workbench.colorTheme": "paddy-terabyte",
+  "workbench.editor.empty.hint": "hidden",
+  "workbench.iconTheme": "icons",
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 100,
+  "prettier.arrowParens": "avoid",
+  "prettier.printWidth": 100,
+  "prettier.singleAttributePerLine": true,
+  "explorer.sortOrder": "foldersNestsFiles",
+  "p5-server.run.openEditor": true,
+  "editor.unicodeHighlight.allowedCharacters": {
+    "–": true
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "git.replaceTagsWhenPull": true,
+  "jest.enable": false,
+  "files.associations": {
+    ".env*": "dotenv",
+    "turbo.json": "jsonc",
+    "CODEOWNERS": "ignore",
+    "tsconfig.*.json": "jsonc",
+    "OWNERS.json": "jsonc",
+    "*.mermaid": "mermaid"
+  },
+  "editor.tokenColorCustomizations": {
+    "[*Light*]": {
+      "textMateRules": [
+        {
+          "scope": "ref.matchtext",
+          "settings": {
+            "foreground": "#000"
+          }
+        }
+      ]
+    },
+    "[*Dark*]": {
+      "textMateRules": [
+        {
+          "scope": "ref.matchtext",
+          "settings": {
+            "foreground": "#fff"
+          }
+        }
+      ]
+    },
+    "textMateRules": []
+  },
+  "dotenv.enableAutocloaking": false,
+  "colorInfo.languages": [
+    {
+      "selector": "css",
+      "colors": "css"
+    },
+    {
+      "selector": "sass",
+      "colors": "css"
+    },
+    {
+      "selector": "scss",
+      "colors": "css"
+    },
+    {
+      "selector": "less",
+      "colors": "css"
+    },
+    {
+      "selector": "typescript",
+      "colors": "css"
+    }
+  ],
+  "prisma.showPrismaDataPlatformNotification": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[postcss]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "svg.preview.mode": "svg",
+  "files.exclude": {
+    "**/.trunk/*actions/": true,
+    "**/.trunk/*logs/": true,
+    "**/.trunk/*notifications/": true,
+    "**/.trunk/*out/": true,
+    "**/.trunk/*plugins/": true
+  },
+  "files.watcherExclude": {
+    "**/.trunk/*actions/": true,
+    "**/.trunk/*logs/": true,
+    "**/.trunk/*notifications/": true,
+    "**/.trunk/*out/": true,
+    "**/.trunk/*plugins/": true
+  },
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "*.sqlite": "${capture}.${extname}-*",
+    "*.db": "${capture}.${extname}-*",
+    "*.sqlite3": "${capture}.${extname}-*",
+    "*.db3": "${capture}.${extname}-*",
+    "*.sdb": "${capture}.${extname}-*",
+    "*.s3db": "${capture}.${extname}-*"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "security.workspace.trust.untrustedFiles": "open",
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "typescript.tsserver.log": "off",
+  "debug.javascript.autoAttachFilter": "disabled",
+  "[xml]": {
+    "editor.defaultFormatter": "DotJoshJohnson.xml"
+  },
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "javascript.format.semicolons": "insert",
+  "typescript.format.semicolons": "insert",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "debug.console.fontFamily": "Berkeley Mono",
+  "debug.console.fontSize": 14,
+  "debug.console.closeOnEnd": true,
+  "debug.closeReadonlyTabsOnEnd": true,
+  "debug.showVariableTypes": true,
+  "editor.defaultFormatter": "biomejs.biome"
+}

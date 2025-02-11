@@ -50,13 +50,17 @@ installer & # Starts the server as a bg process
 
 # Grab a few key packages, will move a bunch more over as I test this more
 #
+INSTALL_SCRIPT_DIR= "$DOTFILES/scripts/packages"
+install_via_server() {
+  (cd "$BIN_DIR" && curl -s "http://localhost:3000/$1" | bash) 
+}
 
 # neovim
-command -v nvim 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/neovim/neovim?as=nvim" | bash)
+source "$INSTALL_SCRIPT_DIR/install-neovim.sh"
 # fzf
-command -v fzf 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/junegunn/fzf" | bash)
+command -v fzf 2>/dev/null || install_via_server "junegunn/fzf"
 # zoxide
-command -v zoxide 2>/dev/null || (cd "$BIN_DIR" && curl -s "http://localhost:3000/ajeetdsouza/zoxide" | bash)
+command -v zoxide 2>/dev/null || install_via_server "/ajeetdsouza/zoxide" 
 
 source "$DOTFILES/scripts/packages/install-core-packages.sh"
 
@@ -75,7 +79,7 @@ CHEATSHEET_PACKAGES=true
 
 # Portal: p2p file transfer
 # https://github.com/SpatiumPortae/portal
-(cd "$BIN_DIR" && curl -s "http://localhost:3000/SpatiumPortae/portal" | bash)
+(cd "$BIN_DIR" && curl -s "http://localhost:3000/spatiumportae/portal" | bash)
 
 # Posting: TUI REST API client
 # https://github.com/darrenburns/posting

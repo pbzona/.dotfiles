@@ -3,23 +3,24 @@ require "nvchad.options"
 local o = vim.o
 local opt = vim.opt
 
-o.cursorlineopt ='both' -- to enable cursorline!
+-- Highlight the cursor line
+o.cursorlineopt ='both'
 
 -- Line numbers
-opt.nu = true
-opt.rnu = true
+o.number = true
+o.relativenumber = true
 
 -- Enable mouse mode
-opt.mouse = "a"
+o.mouse = "a"
 
 -- Allow access to system clipboard
-opt.clipboard = "unnamed,unnamedplus"
+o.clipboard = "unnamed,unnamedplus"
 
 -- Always keep 8 lines above/below cursor unless at start/end of file
-opt.scrolloff = 8
+o.scrolloff = 8
 
 -- Place a column line
-opt.colorcolumn = "80"
+o.colorcolumn = "80"
 
 -- Always show the sign column
-opt.signcolumn = "yes"
+o.signcolumn = "yes"

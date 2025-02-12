@@ -1,21 +1,53 @@
 require "nvchad.mappings"
 
-local map = vim.keymap.set
+-- Be explicit for easier readability
+-- local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
+local opts = { noremap = true, silent = true }
 
-map("i", "jk", "<ESC>")
--- Disabling for visual mode because it messes with v-line selection
--- map("v", "jk", "<ESC>")
+-- Enter command mode
+vim.keymap.set("n", ";", ":", opts) 
+
+-- Quick escape from insert mode
+vim.keymap.set("i", "jj", "<ESC>")
+vim.keymap.set("i", "jk", "<ESC>")
 
 -- Save
-map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
 -- Toggle render-markdown
-map("n", "<leader>rm", function()
+vim.keymap.set("n", "<leader>kd", function()
   require("render-markdown").buf_toggle()
-end, { desc = "Toggle render-markdown for current buffer" })
+end, opts)
 
--- Searching
-map("n", "<leader>fo", require("telescope.builtin").oldfiles, { desc = "[F]ind recently [O]pened files" })
-map("n", "<leader>fh", require("telescope.builtin").help_tags, { desc = "[F]ind [H]elp" })
+-- Better indenting
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+-- Paste over currently selected text without yanking it
+vim.keymap.set("v", "p", '"_dp')
+vim.keymap.set("v", "P", '"_dP')
+
+-- Copy everything between { and } including the brackets
+-- p puts text after the cursor,
+-- P puts text before the cursor.
+vim.keymap.set("n", "YY", "va{Vy", opts)
+
+-- Navigate buffers
+vim.keymap.set("n", "<Right>", ":bnext<CR>", opts)
+vim.keymap.set("n", "<Left>", ":bprevious<CR>", opts)
+
+-- Panes resizing
+vim.keymap.set("n", "+", ":vertical resize +5<CR>")
+vim.keymap.set("n", "_", ":vertical resize -5<CR>")
+vim.keymap.set("n", "=", ":resize +5<CR>")
+vim.keymap.set("n", "-", ":resize -5<CR>")
+
+-- Split line with X
+vim.keymap.set("n", "X", ":keeppatterns substitute/\\s*\\%#\\s*/\\r/e <bar> normal! ==^<cr>", { silent = true })
+
+-- Select all
+vim.keymap.set("n", "<C-a>", "ggVG", opts)
+
+-- Show history
+vim.keymap.set("n", "<leader>hh", ":lua Snacks.picker.notifications()<CR>", opts)

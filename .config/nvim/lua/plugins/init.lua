@@ -37,32 +37,4 @@ return {
     version = "*",
     lazy = false,
   },
-  {
-    "tadmccorkle/markdown.nvim",
-    ft = "markdown",
-    opts = {},
-  },
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {},
-  },
-  {
-    "folke/snacks.nvim",
-    priority = 1000,
-    lazy = false,
-    --@type snacks.Config
-    opts = {
-      dashboard = { example = "compact_files" },
-      notifier = {
-        enabled = true,
-        timout = 2000,
-      },
-      words = {
-        enabled = true,
-      },
-    },
-  },
 }

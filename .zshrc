@@ -5,6 +5,9 @@
 # | .__/|_.__/___|___/_| |_|
 # |_|                       
 #
+# Start profiling shell init
+[[ ! -z "$PROFILE_ZSH" ]] && zmodload zsh/zprof
+
 # Need this for some os-specific settings
 source $HOME/.dotfiles/scripts/lib.sh
 OS=$(detect_os)
@@ -262,5 +265,5 @@ alias secret="openssl rand -hex 32"
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
-
-. "$HOME/.local/share/../bin/env"
+# Finish profiling
+[[ ! -z "$PROFILE_ZSH" ]] && zprof

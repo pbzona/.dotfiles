@@ -24,9 +24,6 @@ OS=$(detect_os)
 #   config.history
 #   config.sourcing
 #   config.mise / config.tools
-#   config.fnm
-#   config.node
-#   config.pnpm
 #   config.golang
 #   config.zoxide
 #   config.fzf
@@ -177,24 +174,11 @@ source "$HOME/.privaterc"
 eval "$(~/.local/bin/mise activate zsh)"
 
 # =============================================================================
-# FNM (Node.js)
-# config.fnm config.node
+# TMUX
+# config.tmux
 # =============================================================================
 
-export PATH="$HOME/.local/share/fnm:$PATH"
-eval "`fnm env`"
-eval "$(fnm env --use-on-cd --shell zsh)"
-
-# =============================================================================
-# PNPM
-# config.pnpm
-# =============================================================================
-
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+# ...
 
 # =============================================================================
 # GOLANG

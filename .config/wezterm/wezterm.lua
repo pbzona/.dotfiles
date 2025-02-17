@@ -18,6 +18,9 @@ config.window_frame = {
   font_size = 22,
 }
 
+config.window_background_opacity = 1.0
+config.text_background_opacity = 0.8
+
 -- Behavior
 config.default_cwd = "$HOME"
 

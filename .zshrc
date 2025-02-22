@@ -24,6 +24,7 @@ OS=$(detect_os)
 #   config.history
 #   config.sourcing
 #   config.mise / config.tools
+#   config.neovim
 #   config.golang
 #   config.zoxide
 #   config.fzf
@@ -92,7 +93,7 @@ zinit light jeffreytse/zsh-vi-mode
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=242"
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-export ZVM_VI_ESCAPE_BINDKEY=jk
+export ZVM_VI_ESCAPE_BINDKEY=jj
 
 # ZINIT SNIPPETS 
 # ----------------------------------------------------------------------------
@@ -172,6 +173,29 @@ source "$HOME/.privaterc"
 # =============================================================================
 
 eval "$(~/.local/bin/mise activate zsh)"
+
+# =============================================================================
+# NEOVIM
+# config.neovim
+# =============================================================================
+#
+# Allow easy switching between different configs
+# See: https://gist.github.com/elijahmanor/b279553c0132bfad7eae23e34ceb593b
+
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+
+function nvims() {
+  opts=("default" "NvChad" "AstroNvim")
+  config=$(printf "%s\n" "${opts[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
 
 # =============================================================================
 # TMUX

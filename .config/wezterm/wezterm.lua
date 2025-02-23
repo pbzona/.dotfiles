@@ -2,8 +2,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- Appearance
--- config.color_scheme = 'darkmoss (bjase16)'
--- config.color_scheme = "Rosé Pine (Gogh)"
+-- config.color_scheme = "darkmoss (base16)"
 config.color_scheme = "rose-pine"
 
 config.font = wezterm.font_with_fallback({
@@ -22,7 +21,7 @@ config.window_frame = {
 }
 
 config.window_background_opacity = 1.0
-config.text_background_opacity = 0.9
+config.text_background_opacity = 1.0
 -- Behavior
 config.default_cwd = "$HOME"
 

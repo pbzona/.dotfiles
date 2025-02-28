@@ -24,6 +24,7 @@ OS=$(detect_os)
 #   config.history
 #   config.sourcing
 #   config.mise / config.tools
+#   config.pnpm
 #   config.neovim
 #   config.golang
 #   config.zoxide
@@ -198,6 +199,16 @@ function nvims() {
 }
 
 # =============================================================================
+# PNPM
+# config.pnpm
+# =============================================================================
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# =============================================================================
 # TMUX
 # config.tmux
 # =============================================================================
@@ -275,3 +286,4 @@ zinit light sindresorhus/pure
 
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof
+

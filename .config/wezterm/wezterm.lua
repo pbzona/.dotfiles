@@ -22,7 +22,28 @@ config.window_frame = {
 
 config.window_background_opacity = 1.0
 config.text_background_opacity = 1.0
+
+-- Commands
+config.command_palette_font_size = 24
+config.command_palette_fg_color = "#48a8cc"
+config.command_palette_bg_color = "#223344"
+
 -- Behavior
 config.default_cwd = "$HOME"
+
+-- Keybindings
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 2000 }
+config.keys = {
+	{
+		key = "|",
+		mods = "LEADER",
+		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = "-",
+		mods = "LEADER",
+		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+	},
+}
 
 return config

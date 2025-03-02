@@ -35,11 +35,4 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
   require "autocmds"
-
-  -- Third party plugins
-  require("mini.surround").setup()
-  require("render-markdown").setup({
-    file_types = { "markdown" }
-  })
 end)
-

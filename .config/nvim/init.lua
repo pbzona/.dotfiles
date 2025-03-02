@@ -35,4 +35,7 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
   require "autocmds"
+
+  require("mini.surround").setup()
+  require("mini.files").setup()
 end)

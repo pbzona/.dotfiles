@@ -5,7 +5,10 @@ return {
     -- Cannot lazy load because of some early setup requirements
     lazy = false,
   },
-  config = function()
-    require("mini.surround").setup()
-  end,
+  {
+    "echasnovski/mini.files",
+    version = false,
+    -- Cannot lazy load because of some early setup requirements
+    lazy = false,
+  },
 }

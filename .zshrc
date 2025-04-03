@@ -185,9 +185,10 @@ eval "$(~/.local/bin/mise activate zsh)"
 
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+alias nvim-kick="NVIM_APPNAME=KickstartNvim nvim"
 
 function nvims() {
-  opts=("default" "NvChad" "AstroNvim")
+  opts=("default" "NvChad" "AstroNvim" "KickstartNvim")
   config=$(printf "%s\n" "${opts[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"

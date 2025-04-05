@@ -48,10 +48,13 @@ mv ./eget "$HOME/.local/bin"
 source "$INSTALL_SCRIPT_DIR/install-neovim.sh"
 # fzf
 eget "junegunn/fzf"
+mv ./fzf "$HOME/.local/bin"
 # zoxide
 eget "ajeetdsouza/zoxide" 
+mv ./zoxide "$HOME/.local/bin"
 # yazi
 eget "sxyazi/yazi"
+mv ./yazi "$HOME/.local/bin"
 
 # Misc standard tools
 source "$DOTFILES/scripts/packages/install-core-packages.sh"

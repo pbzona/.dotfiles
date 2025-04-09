@@ -18,3 +18,17 @@ vim.keymap.set("v", ">", ">gv")
 -- Paste over currently selected text without yanking it
 vim.keymap.set("v", "p", '"_dp')
 vim.keymap.set("v", "P", '"_dP')
+
+-- Comment
+vim.keymap.set(
+  "n",
+  "<leader>/",
+  "gcc",
+  { desc = "toggle comment", remap = true }
+)
+vim.keymap.set(
+  "v",
+  "<leader>/",
+  "gc",
+  { desc = "toggle comment", remap = true }
+)

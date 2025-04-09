@@ -3,7 +3,7 @@ local config = wezterm.config_builder()
 
 -- Appearance
 -- config.color_scheme = "darkmoss (base16)"
-config.color_scheme = "rose-pine"
+config.color_scheme = "Bamboo Multiplex"
 
 config.font = wezterm.font_with_fallback({
 	"Berkeley Mono Variable",

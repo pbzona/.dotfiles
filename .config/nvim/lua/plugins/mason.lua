@@ -4,7 +4,6 @@ return {
     opts = {
       ensure_installed = {
         "biome",
-        "elixirls",
         "gopls",
         "shfmt",
         "stylua",

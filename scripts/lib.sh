@@ -21,15 +21,15 @@ create_executable() {
   interpreter="bash"
   if [[ -z "$3" ]]; then
     : #noop
-  else 
+  else
     interpreter="$3"
   fi
 
   echo "Using interpreter: $interpreter"
 
-  echo "#!/usr/bin/env $interpreter" > $script_path
-  echo "" >> $script_path
-  echo "" >> $script_path
+  echo "#!/usr/bin/env $interpreter" >$script_path
+  echo "" >>$script_path
+  echo "" >>$script_path
 
   echo "Created script: $script_path"
   echo "Press enter to edit now, or enter any string to decline:"
@@ -44,7 +44,7 @@ create_executable() {
 
 # Print either "linux" or "macos"
 detect_os() {
-  if [[ $OSTYPE == "darwin" ]]; then
+  if [[ "echo $OSTYPE | grep -q \"darwin\"" ]]; then
     echo "macos"
   elif [[ $OSTYPE == "linux-gnu" ]]; then
     echo "linux"
@@ -53,4 +53,3 @@ detect_os() {
     exit 1
   fi
 }
-

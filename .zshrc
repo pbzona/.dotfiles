@@ -159,8 +159,6 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-command -v portal 2>/dev/null && eval $(portal completion zsh)
-
 # =============================================================================
 # SOURCING
 # config.sourcing

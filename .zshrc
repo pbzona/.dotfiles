@@ -24,6 +24,7 @@ OS=$(detect_os)
 #   config.history
 #   config.sourcing
 #   config.mise / config.tools
+#   config.fnm
 #   config.pnpm
 #   config.neovim
 #   config.golang
@@ -174,6 +175,18 @@ source "$HOME/.privaterc"
 eval "$(~/.local/bin/mise activate zsh)"
 
 # =============================================================================
+# FNM
+# config.fnm
+# =============================================================================
+
+# Need this in order for VS Code to properly switch binary versions, otherwise would use mise
+FNM_PATH="/Users/phil/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/Users/phil/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi
+
+# =============================================================================
 # NEOVIM
 # config.neovim
 # =============================================================================
@@ -220,9 +233,9 @@ esac
 # config.golang
 # =============================================================================
 
-export GOROOT=$HOME/.go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+# export GOROOT=$HOME/.go
+# export GOPATH=$HOME/go
+# export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # =============================================================================
 # ZOXIDE
@@ -286,4 +299,5 @@ zinit light sindresorhus/pure
 
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof
+
 

@@ -120,15 +120,21 @@ setopt extended_glob null_glob
 path=(
   $path
   $HOME/bin
+  $HOME/.opencode/bin
   $HOME/.local/share
   $HOME/.local/bin
   $DOTFILES/bin
   $DOTFILES/scripts
 )
 
+# Weird homebrew shit - I don't want the full server installed, but there's a conflict
+# with the binary or something.
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+
 # Remove duplicate entries 
 typeset -U path
 
+# Do this at the end so I don't forget and confuse myself
 export PATH
 
 # =============================================================================
@@ -165,7 +171,10 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # config.sourcing
 # =============================================================================
 
-source "$HOME/.privaterc"
+SECRETS_FILE="$HOME/.privaterc"
+if [[ -f "$SECRETS_FILE" ]]; then
+  source "$SECRETS_FILE"
+fi
 
 # =============================================================================
 # MISE / DEV TOOLS
@@ -299,5 +308,4 @@ zinit light sindresorhus/pure
 
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof
-
 

@@ -45,3 +45,5 @@ alias gc="git commit -m" # Must provide your own message
 alias gp="git push"
 alias gl="git log --oneline" 
 
+# miscellaneous
+alias chx="chmod +x"

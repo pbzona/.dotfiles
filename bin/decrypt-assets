@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [[ -z $DOTFILES ]]; then
+  DOTFILES="$HOME/.dotfiles"
+fi
+
+if ! command -v age &>/dev/null; then
+  echo "Missing the $(age) binary - please make sure it's installed and in your PATH"
+fi
+
+STATIC_DIR="$DOTFILES/static"
+
+gum spin --spinner minidot --title "Decrypting static assets..." \
+  -- sleep 2 && age --decrypt -i "$DOTFILES/age.txt" \
+  -o "$STATIC_DIR/fonts.tar.gz" "$STATIC_DIR/fonts.tar.gz.age"
+
+gum spin --spinner minidot --title "Extracting archive..." \
+  -- sleep 1 && tar xzf "$STATIC_DIR/fonts.tar.gz"

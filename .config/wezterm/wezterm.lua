@@ -6,7 +6,8 @@ local config = wezterm.config_builder()
 config.color_scheme = "Bamboo Multiplex"
 
 config.font = wezterm.font_with_fallback({
-	"Berkeley Mono Variable",
+	"Input",
+	"Berkeley Mono",
 	"Dank Mono", -- Bump up the font size if using this
 	"MartianMono Nerd Font",
 	"GeistMono Nerd Font",
@@ -17,7 +18,7 @@ config.font_size = 26
 -- Window
 config.window_frame = {
 	font = wezterm.font({ family = "Berkeley Mono Variable" }),
-	font_size = 22,
+	font_size = 20,
 }
 
 config.window_background_opacity = 1.0

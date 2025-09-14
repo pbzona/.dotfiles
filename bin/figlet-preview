@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# ==============================================================================
+# figlet-preview.sh
+#
+# Description:
+#   This script takes a single text argument and displays it using every
+#   font available to the 'figlet' command.
+#
+# Usage:
+#   ./show_all_fonts.sh "Your Text Here"
+#
+# ==============================================================================
+
+# --- Pre-flight Checks ---
+
+# 1. Ensure the 'figlet' command is installed and available in the PATH.
+if ! command -v figlet &>/dev/null; then
+  echo "Error: 'figlet' command not found."
+  echo "Please install figlet to use this script (e.g., 'sudo apt install figlet' or 'brew install figlet')."
+  exit 1
+fi
+
+# 2. Check if the user provided exactly one argument.
+if [ -z "$1" ]; then
+  echo "Usage: $0 \"<text to display>\""
+  echo "Error: You must provide a text string as the first argument."
+  exit 1
+fi
+
+# Store the text argument in a variable for clarity.
+TEXT_TO_DISPLAY="$1"
+
+# --- Main Logic ---
+
+# Get the list of available figlet fonts.
+# We use `figlet -l | tail -n +2` to skip the header line "Default font: standard".
+# The `while read` loop is safer than `for font in $(...)` if any font names
+# were to ever contain spaces.
+figlet -l | tail -n +2 | while read -r font; do
+  # Print a clear separator and the name of the font being used.
+  echo "========================================================================"
+  echo " FONT: $font"
+  echo "------------------------------------------------------------------------"
+
+  # Execute figlet with the current font and the user's text.
+  figlet -f "$font" "$TEXT_TO_DISPLAY"
+
+  # Add a newline for better spacing between outputs.
+  echo
+done
+
+echo "========================================================================"
+echo "Done."

@@ -1,9 +1,9 @@
 #
-#  _ __ | |__ _______| |__  
-# | '_ \| '_ \_  / __| '_ \ 
+#  _ __ | |__ _______| |__
+# | '_ \| '_ \_  / __| '_ \
 # | |_) | |_) / /\__ \ | | |
 # | .__/|_.__/___|___/_| |_|
-# |_|                       
+# |_|
 #
 # Start profiling shell init
 [[ ! -z "$PROFILE_ZSH" ]] && zmodload zsh/zprof
@@ -26,6 +26,7 @@ OS=$(detect_os)
 #   config.mise / config.tools
 #   config.fnm
 #   config.pnpm
+#   config.bun
 #   config.neovim
 #   config.golang
 #   config.zoxide
@@ -52,6 +53,7 @@ export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 export XDG_CONFIG_DIRS="/etc/xdg"
 export XDG_CACHE_HOME="$HOME/.cache"
 
+export KUBECONFIG=~/.kube/k3s.yaml
 
 # =============================================================================
 # DIRECTORIES
@@ -97,7 +99,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=242"
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 export ZVM_VI_ESCAPE_BINDKEY=jj
 
-# ZINIT SNIPPETS 
+# ZINIT SNIPPETS
 # ----------------------------------------------------------------------------
 # config.zinit.snippets
 zinit snippet OMZP::git
@@ -111,7 +113,7 @@ autoload -Uz compinit && compinit
 zinit cdreplay -q
 
 # =============================================================================
-# PATH CONFIG 
+# PATH CONFIG
 # config.path
 # =============================================================================
 
@@ -131,7 +133,7 @@ path=(
 # with the binary or something.
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 
-# Remove duplicate entries 
+# Remove duplicate entries
 typeset -U path
 
 # Do this at the end so I don't forget and confuse myself
@@ -231,6 +233,12 @@ case ":$PATH:" in
 esac
 
 # =============================================================================
+# Bun
+# config.bun
+# =============================================================================
+export PATH="/Users/phil/.cache/.bun/bin:$PATH"
+
+# =============================================================================
 # TMUX
 # config.tmux
 # =============================================================================
@@ -264,10 +272,10 @@ else
   source <(fzf --zsh)
 fi
 
-export FZF_DEFAULT_OPTS="--layout=reverse" 
+export FZF_DEFAULT_OPTS="--layout=reverse"
 
 # =============================================================================
-# ALIASES 
+# ALIASES
 # config.aliases
 # =============================================================================
 
@@ -290,7 +298,7 @@ source "$DOTFILES/aliases/common.zsh"
 alias fman="compgen -c | fzf | xargs man"
 
 # find pid interactively
-alias fpid="ps aux | fzf | awk '{print $2}'" 
+alias fpid="ps aux | fzf | awk '{print $2}'"
 
 # finds all files recursively and sorts by last modification, ignore hidden files
 alias lastmod='find . -type f -not -path "*/\.*" -exec ls -lrt {} +'
@@ -309,3 +317,11 @@ zinit light sindresorhus/pure
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof
 
+
+# opencode
+export PATH=/Users/phil/.opencode/bin:$PATH
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/phil/.lmstudio/bin"
+
+. "$HOME/.local/share/../bin/env"

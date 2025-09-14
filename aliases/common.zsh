@@ -24,7 +24,7 @@ alias tx="tmuxinator"
 
 # ls
 alias ls="eza"
-alias la="eza -laghm@ --all --icons --git --color=always"
+alias la="eza -lag --all --icons --git --color=always"
 
 # cd 
 alias ..="cd .."

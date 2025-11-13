@@ -183,7 +183,9 @@ fi
 # config.mise config.tools
 # =============================================================================
 
-eval "$(~/.local/bin/mise activate zsh)"
+if [[ -f "$HOME/.local/bin/mise" ]]; then
+  eval "$(~/.local/bin/mise activate zsh)"
+fi
 
 # =============================================================================
 # FNM
@@ -191,9 +193,9 @@ eval "$(~/.local/bin/mise activate zsh)"
 # =============================================================================
 
 # Need this in order for VS Code to properly switch binary versions, otherwise would use mise
-FNM_PATH="/Users/phil/.local/share/fnm"
+FNM_PATH="$HOME/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="/Users/phil/.local/share/fnm:$PATH"
+  export PATH="$FNM_PATH:$PATH"
   eval "`fnm env`"
 fi
 
@@ -236,7 +238,9 @@ esac
 # Bun
 # config.bun
 # =============================================================================
-export PATH="/Users/phil/.cache/.bun/bin:$PATH"
+if [ -d "$HOME/.cache/.bun/bin" ]; then
+  export PATH="$HOME/.cache/.bun/bin:$PATH"
+fi
 
 # =============================================================================
 # TMUX
@@ -259,7 +263,9 @@ export PATH="/Users/phil/.cache/.bun/bin:$PATH"
 # config.zoxide
 # =============================================================================
 
-eval "$(zoxide init zsh)"
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
 
 # =============================================================================
 # FZF
@@ -268,7 +274,7 @@ eval "$(zoxide init zsh)"
 
 if [ -f ~/.fzf.zsh ]; then
   source ~/.fzf.zsh
-else
+elif command -v fzf &> /dev/null; then
   source <(fzf --zsh)
 fi
 

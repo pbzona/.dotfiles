@@ -317,19 +317,3 @@ zinit light sindresorhus/pure
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof
 
-
-# opencode
-export PATH=/Users/phil/.opencode/bin:$PATH
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/phil/.lmstudio/bin"
-
-. "$HOME/.local/share/../bin/env"
-
-# pnpm
-export PNPM_HOME="/Users/phil/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end

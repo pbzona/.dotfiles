@@ -2,8 +2,10 @@
 
 DOTFILES="$HOME/.dotfiles"
 
-# Make sure this includes GITHUB_TOKEN to avoid rate limiting
-source "$HOME/.privaterc"
+# Source private environment variables if they exist
+if [[ -f "$HOME/.privaterc" ]]; then
+  source "$HOME/.privaterc"
+fi
 
 # Set up some important directories if not already created
 mkdir -p "$HOME/.local/{bin,share,state}"

@@ -2,6 +2,16 @@
 
 These are the files that make me better at using the computer.
 
+## Setup
+
+Setting up these dotfiles on a fresh machine? See the [SETUP_VALIDATION](docs/SETUP_VALIDATION.md) guide for:
+- Complete installation instructions
+- Script execution order
+- What gets overwritten (and what doesn't)
+- Troubleshooting common issues
+
+**TL;DR:** Link mise config first, run `./scripts/setup.sh`, then `./scripts/link.sh all`, restart terminal.
+
 ## Applications and tools
 
 ### neovim

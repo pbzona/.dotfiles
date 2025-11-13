@@ -1,8 +1,8 @@
 #
-#  _ __ | |__ _______| |__
-# | '_ \| '_ \_  / __| '_ \
-# | |_) | |_) / /\__ \ | | |
-# | .__/|_.__/___|___/_| |_|
+#     _ __ | |__ _______| |__
+#    | '_ \| '_ \_  / __| '_ \
+#   | |_) | |_) / /\__ \ | | |
+#  | .__/|_.__/___|___/_| |_|
 # |_|
 #
 # Start profiling shell init
@@ -325,3 +325,11 @@ export PATH=/Users/phil/.opencode/bin:$PATH
 export PATH="$PATH:/Users/phil/.lmstudio/bin"
 
 . "$HOME/.local/share/../bin/env"
+
+# pnpm
+export PNPM_HOME="/Users/phil/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

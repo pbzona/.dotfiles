@@ -44,7 +44,7 @@ create_executable() {
 
 # Print either "linux" or "macos"
 detect_os() {
-  if [[ "echo $OSTYPE | grep -q \"darwin\"" ]]; then
+  if echo "$OSTYPE" | grep -q "darwin"; then
     echo "macos"
   elif [[ $OSTYPE == "linux-gnu" ]]; then
     echo "linux"

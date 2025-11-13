@@ -21,6 +21,13 @@ fi
 source "$DOTFILES/scripts/lib.sh"
 OS=$(detect_os)
 if [[ $OS == "macos" ]]; then
+  # Install Homebrew if not present
+  if ! command -v brew &> /dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+
   brew install font-geist-mono-nerd-font font-lilex-nerd-font
 fi
 

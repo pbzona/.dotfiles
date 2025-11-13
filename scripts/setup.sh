@@ -47,7 +47,7 @@ curl https://zyedidia.github.io/eget.sh | sh
 mv ./eget "$HOME/.local/bin"
 
 # neovim
-source "$INSTALL_SCRIPT_DIR/install-neovim.sh"
+source "$DOTFILES/scripts/packages/install-neovim.sh"
 # fzf
 eget "junegunn/fzf"
 mv ./fzf "$HOME/.local/bin"

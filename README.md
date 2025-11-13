@@ -6,7 +6,7 @@ These are the files that make me better at using the computer.
 
 ### neovim
 
-Hey... \*lowers sunglasses\* I use neovim, you know. It's a pretty basic LazyVim setup with a couple tweaks. The theme is called Bamboo.
+Hey... \*lowers sunglasses\* I use neovim, you know. It's a pretty basic LazyVim setup with a couple tweaks. The theme is called Bamboo, and it matches my default WezTerm config.
 
 ### tmux
 
@@ -34,8 +34,10 @@ Todo: document these
 
 These are other custom things I've written that support the tools in `bin` or are otherwise used in automation. For the most part, these will need to be sourced manually.
 
+### links.manifest
+
+This is the manifest for my awful custom symlinking script. See [LINKING](docs/LINKING.md) for details.
+
 ## Todo
 
-Right now, my config files should be manually copied if you want to use them. I'm working on several scripts that will make these easier to try out by managing backups of existing configs and creating symlink. Yes I know about gnu-stow, I'm just a sick individual who enjoys writing bash scripts.
-
-I'm also working on getting all my other configurations added to this repo. It's way past time I start tracking my dotfiles in version control, but it's a work in progress :)
+I'm working on getting all my other configurations added to this repo. It's way past time I start tracking my dotfiles in version control, but it's a work in progress B)

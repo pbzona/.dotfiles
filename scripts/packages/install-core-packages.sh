@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Core packages for everyday use
 
+source "$HOME/.dotfiles/scripts/lib.sh"
 OS=$(detect_os)
 
 case "$OS" in

@@ -44,6 +44,10 @@ Todo: document these
 
 These are other custom things I've written that support the tools in `bin` or are otherwise used in automation. For the most part, these will need to be sourced manually.
 
+### infra/
+
+Todo: add my dev cluster config
+
 ### links.manifest
 
 This is the manifest for my awful custom symlinking script. See [LINKING](docs/LINKING.md) for details.

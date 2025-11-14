@@ -30,7 +30,7 @@ I found that Oh My Zsh became pretty slow, which I'm sure is a skill issue. The 
 
 ### static/fonts
 
-These are my fonts, and yes, they're encrypted. Pay your designers!!!
+These are my fonts, and yes, they're encrypted. Pay your designers!!! See [ASSET_ENCRYPTION](docs/ASSET_ENCRYPTION.md) for encryption/decryption workflow.
 
 ## Custom 
 

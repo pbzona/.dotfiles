@@ -36,9 +36,7 @@ These are my fonts, and yes, they're encrypted. Pay your designers!!! See [ASSET
 
 ### bin/
 
-These are custom tools that are meant to be invoked directly from the command line. They do things that might be useful!
-
-Todo: document these
+Custom command-line utilities (tmux-sessionizer, colorcat, mkbin, etc.). See [BIN_TOOLS](docs/BIN_TOOLS.md) for complete documentation.
 
 ### scripts/
 

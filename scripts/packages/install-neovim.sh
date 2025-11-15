@@ -19,8 +19,8 @@ if [[ "$os_name" == "Darwin" ]]; then
   elif [[ -f /opt/homebrew/bin/nvim ]]; then
     brew uninstall neovim
   fi
-  sudo tar -C /opt -xzf nvim-macos-arm64.tar.gz
-  ln -sf /opt/nvim/bin/nvim "$HOME/.local/bin/nvim"
+  tar -C /tmp/nvim-macos-arm64 -xzf nvim-macos-arm64.tar.gz
+  ln -sf /tmp/nvim-macos-arm64/bin/nvim "$HOME/.local/bin/nvim"
   rm ./nvim-macos-arm64.tar.gz
 fi
 

@@ -9,6 +9,7 @@ fi
 
 # Set up some important directories if not already created
 mkdir -p "$HOME/.local/{bin,share,state}"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Check for zsh
 if [[ ! "$(echo $SHELL | tr '/' '\n' | tail -n 1)" == "zsh" ]]; then

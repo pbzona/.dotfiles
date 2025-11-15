@@ -23,7 +23,9 @@
 # Neovim configuration
 .config/nvim ~/.config/nvim nvim,neovim
 
+# Wezterm
+.config/wezterm ~/.config/wezterm wezterm
+
 # Add more configs here:
 # .gitconfig ~/.gitconfig git
-# .config/wezterm ~/.config/wezterm wezterm,terminal
 # .config/aerospace ~/.config/aerospace aerospace,wm

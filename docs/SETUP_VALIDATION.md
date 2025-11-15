@@ -143,10 +143,6 @@ setup.sh
 - `apt` (Linux - assumed pre-installed)
 - `uv` (installed by mise from config)
 
-**Circular dependency resolved:**
-- `uv` is listed in mise config, so it gets installed by `mise install` (line 44)
-- Then `uv tool install posting` works (line 74)
-
 ---
 
 ## Special Notes
@@ -156,7 +152,7 @@ setup.sh
 The mise config at `.config/mise/config.toml` needs to be linked to `~/.config/mise/config.toml` BEFORE running setup.sh. Otherwise `mise install` (line 44) won't know what to install.
 
 **Current tools in mise config:**
-- **Languages**: bun 1.2, go 1.23, node 22.14, rust 1.84
+- **Languages**: bun 1.2, go 1.25, node 24, rust 1.84
 - **CLI Tools**: bat, eza, fd, ripgrep, jq, github-cli, pnpm, and 30+ utilities
 - **Python Tools**: uv 0.5
 

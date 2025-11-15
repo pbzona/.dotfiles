@@ -122,6 +122,12 @@ link_zsh() {
   link_from_manifest "zsh"
 }
 
+link_wezterm() {
+  echo "=== Setting up wezterm ==="
+  echo ""
+  link_from_manifest "wezterm"
+}
+
 # Show usage information
 show_usage() {
   echo "Usage: $0 {nvim|neovim|tmux|zsh|all|manifest} [--help]"
@@ -130,6 +136,7 @@ show_usage() {
   echo "  nvim, neovim  - Link neovim config (cleans state directories first)"
   echo "  tmux          - Link tmux config (installs tpm if needed)"
   echo "  zsh           - Link zsh config"
+  echo "  wezterm       - Link wezterm config"
   echo "  all           - Link all configs with special setup steps"
   echo "  manifest      - Link all configs from manifest (basic linking only)"
   echo ""
@@ -149,6 +156,9 @@ case "$1" in
     ;;
   zsh)
     link_zsh
+    ;;
+  wezterm)
+    link_wezterm
     ;;
   mac)
     echo "TODO: put macos specific configs here"

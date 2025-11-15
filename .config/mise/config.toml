@@ -10,10 +10,10 @@
 # Core Runtimes/Languages
 bun = "1.2"
 # deno = "2"
-# elixir = "1.18"
-go = "1.23"
-node = "22.14"
-# python = "3.11"
+elixir = "latest"
+go = "1.25"
+node = "24.11.1"
+python = "3.12"
 rust = "1.84"
 
 # Dependencies
@@ -22,11 +22,11 @@ bat-extras = "2024.08.24"
 eza = "0.20"
 fd = "10.2"
 jq = "1.7"
-ripgrep = "14.1"
+ripgrep = "14.1.1"
 
 # Main
 github-cli = "2.67"
-pnpm = { version = "10.3", postinstall = "corepack && corepack enable pnpm"}
+pnpm = "10.18"
 xh = "0.23.1"
 
 # Infra
@@ -37,7 +37,7 @@ lazydocker = "0.24"
 # nerdctl = "2.0"
 
 # Utilities
-age = "1.2"
+age = "1.2.1"
 # alp = "1.0"
 # atlas = "0.31"
 bottom = "0.10"
@@ -64,7 +64,7 @@ jc = "1.25"
 # jqp = "0.7"
 # killport = "1.1"
 # mitmproxy = "9.0"
-# mkcert = "1.4"
+mkcert = "1.4.4"
 peco = "0.5"
 # qsv = "3.0"
 # rclone = "1.69"
@@ -72,12 +72,12 @@ peco = "0.5"
 ripgrep-all = "0.10"
 # rlwrap = "0.46"
 # shellcheck = "0.10"
-# sops = "3.9"
-# sqlite = "3.49"
+sops = "3.9"
+sqlite = "3.49"
 tree-sitter = "0.25"
 # usage = "2.0"
 # usql = "0.19"
-uv = "0.5"
+uv = "0.5.31"
 # wtfutil = "0.43"
 # yj = "5.1"
 # yq = "4.45"
@@ -85,6 +85,8 @@ uv = "0.5"
 
 # JS/TS
 biome = "latest"
+erlang = "latest"
+yazi = "latest"
 
 [settings]
 color = true

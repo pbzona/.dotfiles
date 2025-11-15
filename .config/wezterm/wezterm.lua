@@ -6,14 +6,14 @@ local config = wezterm.config_builder()
 config.color_scheme = "Bamboo Multiplex"
 
 config.font = wezterm.font_with_fallback({
-	"Input",
+	-- "Input",
 	"Berkeley Mono",
 	"Dank Mono", -- Bump up the font size if using this
 	"MartianMono Nerd Font",
 	"GeistMono Nerd Font",
 	"Lilex Nerd Font",
 })
-config.font_size = 26
+config.font_size = 24
 
 -- Window
 config.window_frame = {

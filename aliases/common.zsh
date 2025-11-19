@@ -29,6 +29,7 @@ alias la="eza -lag --all --icons --git --color=always"
 # cd 
 alias ..="cd .."
 alias ...="cd ../.."
+alias back="cd -"
 alias proj="cd $PROJECTS"
 alias dot="cd $DOTFILES"
 

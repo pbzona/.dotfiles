@@ -1,0 +1,182 @@
+#!/usr/bin/env bash
+# Encrypt assets using age for secure storage in git
+
+set -e
+
+if [[ -z $DOTFILES ]]; then
+  DOTFILES="$HOME/.dotfiles"
+fi
+
+STATIC_DIR="$DOTFILES/static"
+RECIPIENTS_FILE="$DOTFILES/.age-recipients.txt"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+info() { echo -e "${BLUE}ℹ${NC} $1"; }
+success() { echo -e "${GREEN}✓${NC} $1"; }
+warn() { echo -e "${YELLOW}⚠${NC} $1"; }
+error() { echo -e "${RED}✗${NC} $1"; }
+
+usage() {
+  cat << EOF
+encrypt-assets - Encrypt files/directories using age
+
+Usage:
+  encrypt-assets <file|directory> [output-name]
+
+Arguments:
+  file|directory    Path to encrypt (relative to static/)
+  output-name       Optional: name for encrypted file (default: auto-generated)
+
+Examples:
+  encrypt-assets fonts/              # Creates static/fonts.tar.gz.age
+  encrypt-assets myfile.txt          # Creates static/myfile.txt.age
+  encrypt-assets fonts/ myfonts      # Creates static/myfonts.tar.gz.age
+
+Description:
+  - Encrypts files/directories using age and .age-recipients.txt
+  - Directories are automatically compressed to .tar.gz first
+  - Cleans up unencrypted files after encryption
+  - Creates encrypted file in static/ directory
+
+Prerequisites:
+  - age must be installed (check: age --version)
+  - .age-recipients.txt must exist with public key
+  - Run from dotfiles directory or set \$DOTFILES
+
+Security:
+  - Encrypted files safe to commit to public repos
+  - Uses public key from .age-recipients.txt
+  - Original files are deleted after encryption
+EOF
+}
+
+# Check prerequisites
+if ! command -v age &>/dev/null; then
+  error "age is not installed"
+  echo ""
+  info "Install with: mise install age"
+  exit 1
+fi
+
+if [[ ! -f "$RECIPIENTS_FILE" ]]; then
+  error "Recipients file not found: $RECIPIENTS_FILE"
+  echo ""
+  info "Generate keys first:"
+  echo "  age-keygen -o $DOTFILES/age.txt"
+  echo "  grep 'public key:' $DOTFILES/age.txt | cut -d: -f2 | tr -d ' ' > $RECIPIENTS_FILE"
+  exit 1
+fi
+
+# Parse arguments
+if [[ $# -eq 0 ]] || [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
+  usage
+  exit 0
+fi
+
+INPUT="$1"
+OUTPUT_NAME="${2:-}"
+
+# Ensure we're working in static directory
+cd "$STATIC_DIR"
+
+# Check if input exists
+if [[ ! -e "$INPUT" ]]; then
+  error "Not found: $STATIC_DIR/$INPUT"
+  exit 1
+fi
+
+# Determine if input is directory or file
+if [[ -d "$INPUT" ]]; then
+  # Directory - create tarball first
+  DIR_NAME="$(basename "$INPUT")"
+  TARBALL_NAME="${OUTPUT_NAME:-$DIR_NAME}.tar.gz"
+  ENCRYPTED_NAME="$TARBALL_NAME.age"
+
+  info "Encrypting directory: $INPUT"
+  echo ""
+
+  # Create tarball
+  info "Creating tarball..."
+  if command -v gum &>/dev/null; then
+    gum spin --spinner minidot --title "Compressing $INPUT..." -- \
+      tar czf "$TARBALL_NAME" "$INPUT"
+  else
+    tar czf "$TARBALL_NAME" "$INPUT"
+    success "Compressed to $TARBALL_NAME"
+  fi
+
+  # Encrypt tarball
+  info "Encrypting..."
+  if command -v gum &>/dev/null; then
+    gum spin --spinner minidot --title "Encrypting $TARBALL_NAME..." -- \
+      age --encrypt --recipients-file "$RECIPIENTS_FILE" \
+        -o "$ENCRYPTED_NAME" "$TARBALL_NAME"
+  else
+    age --encrypt --recipients-file "$RECIPIENTS_FILE" \
+      -o "$ENCRYPTED_NAME" "$TARBALL_NAME"
+    success "Encrypted to $ENCRYPTED_NAME"
+  fi
+
+  # Clean up
+  info "Cleaning up..."
+  rm -rf "$INPUT"
+  rm "$TARBALL_NAME"
+  success "Removed unencrypted files"
+
+  echo ""
+  success "Encrypted directory to: static/$ENCRYPTED_NAME"
+  echo ""
+  info "Next steps:"
+  echo "  1. git add static/$ENCRYPTED_NAME"
+  echo "  2. git commit -m \"Add encrypted $DIR_NAME\""
+  echo "  3. To decrypt: decrypt-assets (or manually with age -d)"
+
+elif [[ -f "$INPUT" ]]; then
+  # File - encrypt directly
+  FILE_NAME="$(basename "$INPUT")"
+  ENCRYPTED_NAME="${OUTPUT_NAME:-$FILE_NAME}.age"
+
+  info "Encrypting file: $INPUT"
+  echo ""
+
+  # Encrypt file
+  info "Encrypting..."
+  if command -v gum &>/dev/null; then
+    gum spin --spinner minidot --title "Encrypting $FILE_NAME..." -- \
+      age --encrypt --recipients-file "$RECIPIENTS_FILE" \
+        -o "$ENCRYPTED_NAME" "$INPUT"
+  else
+    age --encrypt --recipients-file "$RECIPIENTS_FILE" \
+      -o "$ENCRYPTED_NAME" "$INPUT"
+    success "Encrypted to $ENCRYPTED_NAME"
+  fi
+
+  # Clean up
+  info "Cleaning up..."
+  rm "$INPUT"
+  success "Removed unencrypted file"
+
+  echo ""
+  success "Encrypted file to: static/$ENCRYPTED_NAME"
+  echo ""
+  info "Next steps:"
+  echo "  1. git add static/$ENCRYPTED_NAME"
+  echo "  2. git commit -m \"Add encrypted $FILE_NAME\""
+  echo "  3. To decrypt: age -d -i $DOTFILES/age.txt -o $FILE_NAME $ENCRYPTED_NAME"
+
+else
+  error "Unknown file type: $INPUT"
+  exit 1
+fi
+
+echo ""
+warn "Security reminder:"
+echo "  • Encrypted file is safe to commit to public repos"
+echo "  • Never commit age.txt (private key) - it's gitignored"
+echo "  • Back up age.txt in a secure location (password manager)"

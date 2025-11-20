@@ -1,18 +1,217 @@
 #!/usr/bin/env bash
+# Decrypt age-encrypted assets
+
+set -e
 
 if [[ -z $DOTFILES ]]; then
   DOTFILES="$HOME/.dotfiles"
 fi
 
-if ! command -v age &>/dev/null; then
-  echo "Missing the $(age) binary - please make sure it's installed and in your PATH"
+STATIC_DIR="$DOTFILES/static"
+PRIVATE_KEY="$DOTFILES/age.txt"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+info() { echo -e "${BLUE}ℹ${NC} $1"; }
+success() { echo -e "${GREEN}✓${NC} $1"; }
+warn() { echo -e "${YELLOW}⚠${NC} $1"; }
+error() { echo -e "${RED}✗${NC} $1"; }
+
+usage() {
+  cat << EOF
+decrypt-assets - Decrypt age-encrypted files
+
+Usage:
+  decrypt-assets [file]
+  decrypt-assets --list
+  decrypt-assets --all
+
+Arguments:
+  file          Encrypted file to decrypt (e.g., fonts.tar.gz.age)
+                If omitted, decrypts fonts.tar.gz.age by default
+
+Options:
+  --list, -l    List all encrypted assets
+  --all, -a     Decrypt all encrypted assets
+  --help, -h    Show this help
+
+Examples:
+  decrypt-assets                    # Decrypt fonts (default)
+  decrypt-assets fonts.tar.gz.age   # Decrypt specific file
+  decrypt-assets secrets.env.age    # Decrypt config file
+  decrypt-assets --list             # Show all encrypted files
+  decrypt-assets --all              # Decrypt everything
+
+Description:
+  - Decrypts files using age and private key from age.txt
+  - Automatically extracts .tar.gz archives after decryption
+  - Cleans up temporary files
+  - Preserves encrypted originals
+
+Prerequisites:
+  - age must be installed (check: age --version)
+  - age.txt (private key) must exist in dotfiles root
+  - Encrypted .age files must exist in static/
+
+Security:
+  - Requires private key (age.txt) - never commit this!
+  - Decrypted files are NOT tracked by git (.gitignore)
+  - Keep age.txt backed up securely (password manager)
+EOF
+}
+
+# Check if help requested first (before prerequisites)
+if [[ "${1:-}" == "--help" ]] || [[ "${1:-}" == "-h" ]]; then
+  usage
+  exit 0
 fi
 
-STATIC_DIR="$DOTFILES/static"
+# Check prerequisites
+if ! command -v age &>/dev/null; then
+  error "age is not installed"
+  echo ""
+  info "Install with: mise install age"
+  exit 1
+fi
 
-gum spin --spinner minidot --title "Decrypting static assets..." \
-  -- sleep 2 && age --decrypt -i "$DOTFILES/age.txt" \
-  -o "$STATIC_DIR/fonts.tar.gz" "$STATIC_DIR/fonts.tar.gz.age"
+if [[ ! -f "$PRIVATE_KEY" ]]; then
+  error "Private key not found: $PRIVATE_KEY"
+  echo ""
+  info "You need the private key to decrypt assets"
+  echo ""
+  echo "If this is a new machine:"
+  echo "  1. Get age.txt from secure storage (password manager, etc.)"
+  echo "  2. Save it to: $PRIVATE_KEY"
+  echo "  3. Run: chmod 600 $PRIVATE_KEY"
+  echo ""
+  echo "If you don't have the key, you can't decrypt these assets."
+  exit 1
+fi
 
-gum spin --spinner minidot --title "Extracting archive..." \
-  -- sleep 1 && tar xzf "$STATIC_DIR/fonts.tar.gz"
+# Ensure static directory exists
+if [[ ! -d "$STATIC_DIR" ]]; then
+  error "Static directory not found: $STATIC_DIR"
+  exit 1
+fi
+
+cd "$STATIC_DIR"
+
+# List encrypted files
+list_encrypted() {
+  local encrypted_files=(*.age)
+
+  if [[ ${#encrypted_files[@]} -eq 0 ]] || [[ "${encrypted_files[0]}" == "*.age" ]]; then
+    warn "No encrypted files found in static/"
+    return 1
+  fi
+
+  info "Encrypted assets in static/:"
+  echo ""
+  for file in "${encrypted_files[@]}"; do
+    local size=$(du -h "$file" | cut -f1)
+    echo "  • $file ($size)"
+  done
+  echo ""
+  info "Total: ${#encrypted_files[@]} file(s)"
+}
+
+# Decrypt a single file
+decrypt_file() {
+  local encrypted_file="$1"
+  local decrypted_file="${encrypted_file%.age}"
+
+  if [[ ! -f "$encrypted_file" ]]; then
+    error "File not found: $encrypted_file"
+    return 1
+  fi
+
+  info "Decrypting: $encrypted_file"
+
+  # Decrypt
+  if command -v gum &>/dev/null; then
+    gum spin --spinner minidot --title "Decrypting..." -- \
+      age --decrypt -i "$PRIVATE_KEY" -o "$decrypted_file" "$encrypted_file"
+  else
+    age --decrypt -i "$PRIVATE_KEY" -o "$decrypted_file" "$encrypted_file"
+  fi
+  success "Decrypted to: $decrypted_file"
+
+  # If it's a tarball, extract it
+  if [[ "$decrypted_file" == *.tar.gz ]]; then
+    local extract_dir="${decrypted_file%.tar.gz}"
+    info "Extracting archive..."
+
+    if command -v gum &>/dev/null; then
+      gum spin --spinner minidot --title "Extracting..." -- \
+        tar xzf "$decrypted_file"
+    else
+      tar xzf "$decrypted_file"
+    fi
+
+    success "Extracted to: $extract_dir/"
+
+    # Clean up tarball
+    rm "$decrypted_file"
+    info "Cleaned up intermediate tarball"
+  fi
+
+  echo ""
+  success "Done!"
+}
+
+# Decrypt all files
+decrypt_all() {
+  local encrypted_files=(*.age)
+
+  if [[ ${#encrypted_files[@]} -eq 0 ]] || [[ "${encrypted_files[0]}" == "*.age" ]]; then
+    warn "No encrypted files found in static/"
+    return 1
+  fi
+
+  info "Decrypting ${#encrypted_files[@]} file(s)..."
+  echo ""
+
+  local count=0
+  for file in "${encrypted_files[@]}"; do
+    ((count++))
+    echo "[$count/${#encrypted_files[@]}]"
+    decrypt_file "$file"
+    echo ""
+  done
+
+  success "All files decrypted!"
+}
+
+# Parse arguments
+case "${1:-}" in
+  --list|-l)
+    list_encrypted
+    exit 0
+    ;;
+  --all|-a)
+    decrypt_all
+    exit 0
+    ;;
+  "")
+    # Default: decrypt fonts
+    DEFAULT_FILE="fonts.tar.gz.age"
+    if [[ -f "$DEFAULT_FILE" ]]; then
+      decrypt_file "$DEFAULT_FILE"
+    else
+      warn "Default file not found: $DEFAULT_FILE"
+      echo ""
+      list_encrypted
+      echo ""
+      info "Decrypt with: decrypt-assets <filename>"
+    fi
+    ;;
+  *)
+    # Decrypt specified file
+    decrypt_file "$1"
+    ;;
+esac

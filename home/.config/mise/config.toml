@@ -1,0 +1,93 @@
+# Rule of thumb: specify to the minor version to make sure
+# to get new patches, but don't install a whole new
+# major/minor unintentionally
+#
+# Commented tools are optional, might not be needed on a
+# lightweight test env but are still things I want to
+# track for more full dev env
+#
+# Note: Simple CLI utilities are now in Brewfile
+# mise is for: languages, version-sensitive tools, and dev tooling
+
+[tools]
+# Core Runtimes/Languages
+bun = "1.2"
+# deno = "2"
+elixir = "latest"
+erlang = "latest"
+go = "1.25"
+node = "24.11.1"
+python = "3.12"
+rust = "1.84"
+
+# Package Managers & Build Tools (version-sensitive)
+pnpm = "10.18"
+uv = "0.5.31"
+
+# JS/TS Tooling (version-sensitive)
+biome = "latest"
+
+# Security & Secrets (version-sensitive)
+age = "1.2.1"
+sops = "3.9"
+
+# Git Tooling (version-sensitive)
+delta = "0.18"
+
+# Development Tools (version-sensitive)
+tree-sitter = "0.25"
+
+# Advanced Search (extends ripgrep from Brew)
+ripgrep-all = "0.10"
+
+# TUI Tools (not in Brew or version-sensitive)
+lazydocker = "0.24"
+peco = "0.5"
+
+# Utilities (kept for version management or not in Brew)
+gitconfig = "1.0"
+hostctl ="1.1"
+hwatch = "0.3"
+jc = "1.25"
+
+# Optional/Commented utilities
+# alp = "1.0"
+# atlas = "0.31"
+# certstrap = "1.3"
+# choose = "1.3"
+# dasel = "2.8"
+# dt = "1.3"
+# dust = "1.1"
+# fillin = "0.3"
+# fx = "35"
+# gdu = "5.30"
+# ghq = "1.7"
+# glow = "2.0"
+# grex = "1.4"
+# hurl = "6.0"
+# jd = "2.0"
+# jnv = "0.5"
+# jqp = "0.7"
+# killport = "1.1"
+# mitmproxy = "9.0"
+# qsv = "3.0"
+# rclone = "1.69"
+# redo = "0.8"
+# rlwrap = "0.46"
+# shellcheck = "0.10"
+# usage = "2.0"
+# usql = "0.19"
+# wtfutil = "0.43"
+# yj = "5.1"
+# yq = "4.45"
+# yt-dlp = "2025.01"
+
+# Infra (commented for lightweight setups)
+# doctl = "1.121"
+# ctlptl = "0.8"
+# flyctl = "0.3"
+# nerdctl = "2.0"
+
+[settings]
+color = true
+idiomatic_version_file = true

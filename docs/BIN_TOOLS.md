@@ -35,19 +35,124 @@ colorcat colors.css
 
 ### decrypt-assets
 
-**Purpose:** Decrypt and extract encrypted static assets (fonts)
+**Purpose:** Decrypt age-encrypted files and directories
 
 **Usage:**
 ```bash
+# Decrypt fonts (default)
 decrypt-assets
+
+# Decrypt specific file
+decrypt-assets fonts.tar.gz.age
+decrypt-assets secrets.env.age
+
+# List all encrypted assets
+decrypt-assets --list
+
+# Decrypt all encrypted files
+decrypt-assets --all
 ```
 
 **What it does:**
-- Decrypts `static/fonts.tar.gz.age` using your private key
-- Extracts fonts to `static/fonts/`
-- Requires `age.txt` private key in dotfiles root
+- Decrypts age-encrypted files using your private key (`age.txt`)
+- Automatically extracts `.tar.gz` archives after decryption
+- Cleans up intermediate files
+- Preserves encrypted originals
 
-**Dependencies:** age, gum
+**Options:**
+- `--list, -l` - Show all encrypted assets in `static/`
+- `--all, -a` - Decrypt all encrypted files at once
+- `--help, -h` - Show help message
+
+**Arguments:**
+- `file` - Specific encrypted file to decrypt (optional)
+- If no file specified, defaults to `fonts.tar.gz.age`
+
+**Examples:**
+```bash
+# Decrypt default (fonts)
+decrypt-assets
+
+# Decrypt specific asset
+decrypt-assets credentials.tar.gz.age
+
+# See what's available
+decrypt-assets --list
+
+# Decrypt everything
+decrypt-assets --all
+```
+
+**Prerequisites:**
+- age must be installed (`mise install age`)
+- `age.txt` (private key) must exist in dotfiles root
+- Encrypted `.age` files must exist in `static/`
+
+**Error Handling:**
+- Checks for age installation
+- Verifies private key exists with helpful instructions
+- Gracefully falls back when `gum` isn't available
+- Lists available files if default not found
+
+**Dependencies:** age, gum (optional)
+
+**See also:** [ASSET_ENCRYPTION.md](ASSET_ENCRYPTION.md)
+
+---
+
+### encrypt-assets
+
+**Purpose:** Encrypt files or directories using age for secure storage in git
+
+**Usage:**
+```bash
+# Encrypt a directory (creates tarball automatically)
+encrypt-assets fonts/
+
+# Encrypt a single file
+encrypt-assets credentials.json
+
+# Encrypt with custom output name
+encrypt-assets fonts/ myfonts
+```
+
+**What it does:**
+- Encrypts files/directories using age and `.age-recipients.txt` (public key)
+- Automatically creates `.tar.gz` for directories
+- Cleans up unencrypted originals after encryption
+- Provides git commit instructions
+
+**Arguments:**
+- `file|directory` - Path to encrypt (relative to `static/`)
+- `output-name` - Optional custom name for encrypted file
+
+**Examples:**
+```bash
+# Encrypt fonts directory
+encrypt-assets fonts/
+# → Creates static/fonts.tar.gz.age
+
+# Encrypt a config file
+encrypt-assets secrets.env
+# → Creates static/secrets.env.age
+
+# Custom output name
+encrypt-assets fonts/ licensed-fonts
+# → Creates static/licensed-fonts.tar.gz.age
+```
+
+**Dependencies:** age
+
+**Prerequisites:**
+- `.age-recipients.txt` must exist (contains public key)
+- Run from dotfiles directory or set `$DOTFILES`
+- age must be installed (`mise install age`)
+
+**Security:**
+- Uses public key encryption (age)
+- Encrypted files safe to commit to public repos
+- Original files deleted after encryption
+- Never commits `age.txt` (private key)
 
 **See also:** [ASSET_ENCRYPTION.md](ASSET_ENCRYPTION.md)
 

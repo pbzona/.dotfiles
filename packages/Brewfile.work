@@ -1,0 +1,9 @@
+# Brewfile.work - Work-specific packages
+# Install with: brew bundle --file=Brewfile.work
+# This file is for packages specific to work environments
+
+# Add work-specific tools here, for example:
+# brew "awscli"
+# brew "terraform"
+# cask "slack"
+# cask "zoom"

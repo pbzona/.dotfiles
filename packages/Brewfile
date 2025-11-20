@@ -1,0 +1,112 @@
+# Main Brewfile - Core development environment
+# Install with: brew bundle [install]
+# Update with: brew bundle
+
+# Taps
+tap "nikitabobko/tap"  # For aerospace
+
+# Core Development Tools
+brew "git"
+brew "git-lfs"
+brew "gh"             # GitHub CLI
+brew "curl"
+brew "wget"
+brew "openssl"
+
+# Shell & Terminal
+brew "zsh"
+brew "tmux"
+brew "fzf"            # Fuzzy finder
+brew "zoxide"         # Smart directory jumper
+cask "wezterm"        # Terminal emulator
+
+# Window Management
+cask "nikitabobko/tap/aerospace"  # Tiling window manager
+
+# Editor
+brew "neovim"
+
+# File & Text Processing
+brew "bat"            # Better cat
+brew "bat-extras"     # Bonus bat commands (batgrep, batman, etc.)
+brew "eza"            # Better ls
+brew "fd"             # Better find
+brew "ripgrep"        # Better grep
+brew "jq"             # JSON processor
+brew "yazi"           # Terminal file manager
+brew "tree"
+brew "gnu-sed"
+
+# System Utilities
+brew "bottom"         # System monitor (btm)
+brew "btop"           # System monitor
+brew "duf"            # Disk usage/free utility
+brew "htop"
+brew "mtr"            # Network diagnostic
+brew "nmap"
+brew "telnet"
+brew "tldr"           # Simplified man pages
+
+# Docker & Containers
+brew "docker"
+
+# Cloud & Infrastructure
+brew "doctl"          # DigitalOcean CLI
+brew "flyctl"         # Fly.io CLI
+brew "railway"        # Railway CLI
+brew "vercel-cli"     # Vercel CLI
+brew "helm"           # Kubernetes package manager
+brew "derailed/k9s/k9s"  # Kubernetes TUI
+
+# API & Web Tools
+brew "grpcurl"
+brew "httpstat"
+brew "mkcert"         # Local SSL certificates
+brew "xh"             # HTTP client (modern curl/httpie)
+brew "caddy"          # Web server
+brew "stripe/stripe-cli/stripe"
+
+# Productivity & Development
+brew "act"            # Run GitHub Actions locally
+brew "code-server"    # VS Code in browser
+brew "fastfetch"      # System info
+brew "gource"         # Repository visualization
+brew "graphviz"       # Graph visualization
+
+# Data Tools
+brew "csvlens"        # CSV viewer
+brew "qsv"            # CSV toolkit
+brew "redis"
+brew "sqlite"         # Database
+
+# Networking
+brew "dnsmasq"
+brew "tailscale"
+brew "lftp"
+brew "surfraw"
+
+# Search & Reference
+brew "ddgr"           # DuckDuckGo search
+brew "ast-grep"       # Structural search
+
+# Build & Deploy
+brew "nixpacks"       # Build containers
+brew "templ"          # Go templating
+brew "libpq"          # PostgreSQL client
+brew "nss"            # Network Security Services
+brew "squashfs"       # Filesystem
+
+# Media
+brew "yt-dlp"         # YouTube downloader
+brew "cbonsai"        # Terminal bonsai
+
+# Performance Testing
+brew "k6"             # Load testing
+
+# Fonts (Nerd Fonts for terminal icons)
+cask "font-geist-mono-nerd-font"
+cask "font-lilex-nerd-font"
+
+# Optional: Package manager tools
+brew "bash"
+brew "python-setuptools"

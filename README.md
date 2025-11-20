@@ -2,54 +2,200 @@
 
 These are the files that make me better at using the computer.
 
-## Setup
+## ⚡ Quick Start
 
-Setting up these dotfiles on a fresh machine? See the [SETUP_VALIDATION](docs/SETUP_VALIDATION.md) guide for:
-- Complete installation instructions
-- Script execution order
-- What gets overwritten (and what doesn't)
-- Troubleshooting common issues
+```bash
+# Clone the repo
+git clone <repo-url> ~/.dotfiles
+cd ~/.dotfiles
 
-**TL;DR:** Link mise config first, run `./scripts/setup.sh`, then `./scripts/link.sh all`, restart terminal.
+# Preview setup (dry run)
+./dot setup --dry-run
 
-## Applications and tools
+# Run full setup
+./dot setup
+
+# Verify everything works
+./dot doctor
+```
+
+## 🎮 The `dot` CLI
+
+All dotfiles operations are managed through the `dot` command:
+
+```bash
+dot setup       # Initial setup for new machine
+dot link        # Link configs with GNU Stow
+dot unlink      # Remove symlinks
+dot doctor      # Run health diagnostics
+dot update      # Update all packages and tools
+dot package     # Manage Brewfile packages
+```
+
+Most commands support `--dry-run` to preview changes:
+```bash
+dot setup --dry-run
+dot link --dry-run
+dot update --dry-run
+```
+
+## 📦 Package Management
+
+All Homebrew packages are declared in `packages/Brewfile`:
+
+```bash
+# Add a package
+dot package add bat
+
+# Remove a package
+dot package remove nushell
+
+# List all packages
+dot package list
+
+# Sync installed packages with Brewfile
+dot package sync
+```
+
+For work-specific packages, use `packages/Brewfile.work`.
+
+## 🔗 Configuration Linking
+
+Uses **GNU Stow** to symlink configs from `home/` to `~`:
+
+```
+home/.zshrc           → ~/.zshrc
+home/.tmux.conf       → ~/.tmux.conf
+home/.aerospace.toml  → ~/.aerospace.toml
+home/.config/nvim     → ~/.config/nvim
+home/.config/wezterm  → ~/.config/wezterm
+```
+
+## 📋 What's Included
+
+### Core Tools
+- **Shell**: zsh with custom configuration
+- **Terminal**: WezTerm with custom config
+- **Editor**: Neovim (LazyVim + Bamboo theme)
+- **Multiplexer**: tmux with comprehensive keybinds
+- **Window Manager**: AeroSpace (macOS tiling)
+
+### Package Management
+- **Homebrew**: System packages (via Brewfile)
+- **mise**: Language runtimes and dev tools
+- **eget**: Binary downloads (edge cases)
+
+### Custom Tools
+See [BIN_TOOLS](docs/BIN_TOOLS.md) for details:
+- `tmux-sessionizer` - Quick tmux project switching
+- `colorcat` - Syntax-highlighted file viewing
+- `mkbin` / `mkscript` - Script generators
+- And more...
+
+## 🩺 Troubleshooting
+
+Run comprehensive diagnostics:
+```bash
+dot doctor
+```
+
+This checks:
+- Shell configuration (zsh)
+- Package managers (Homebrew, mise)
+- Required tools (git, stow, tmux, nvim)
+- Symlink integrity
+- PATH configuration
+- Broken links detection
+
+## 📚 Documentation
+
+- [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) - How everything fits together (⭐ **START HERE**)
+- [SETUP_VALIDATION.md](docs/SETUP_VALIDATION.md) - Detailed setup guide
+- [BIN_TOOLS.md](docs/BIN_TOOLS.md) - Custom command-line utilities
+- [ASSET_ENCRYPTION.md](docs/ASSET_ENCRYPTION.md) - Encryption workflow
+
+## 🎯 Key Features
+
+### 1. **Idempotent Operations**
+All commands can be run multiple times safely. No fear of breaking things.
+
+### 2. **Dry-Run Support**
+Preview changes before applying:
+```bash
+dot setup --dry-run
+dot link --dry-run
+dot update --dry-run
+```
+
+### 3. **Health Monitoring**
+`dot doctor` provides comprehensive diagnostics:
+- ✓ Everything working
+- ⚠ Warnings for issues
+- ✗ Errors with fix instructions
+
+### 4. **Modular Architecture**
+Each command is a separate, easy-to-understand script in `scripts/commands/`.
+
+### 5. **Single Source of Truth**
+- **packages/Brewfile**: All Homebrew packages
+- **mise config**: All language runtimes
+- **home/**: All config files
+- **Git**: Version control for everything
+
+## 🔐 Security
+
+- Private data goes in `~/.privaterc` (sourced but not committed)
+- Secrets encrypted with `age` (see [ASSET_ENCRYPTION.md](docs/ASSET_ENCRYPTION.md))
+- Fonts are encrypted (pay your designers!)
+- `.gitignore` excludes sensitive files
+
+## 📝 Applications
 
 ### neovim
-
 Hey... \*lowers sunglasses\* I use neovim, you know. It's a pretty basic LazyVim setup with a couple tweaks. The theme is called Bamboo, and it matches my default WezTerm config.
 
 ### tmux
-
 I've actually been using tmux for a while so this one is pretty comprehensive. Having experimented with Zellij (which is also very cool!) I still find that I prefer tmux.
 
 ### .zshrc
-
 I found that Oh My Zsh became pretty slow, which I'm sure is a skill issue. The way I solved it was to use zinit and handle a lot more configuration myself, so there's quite a bit going on here. I added some profiling behavior so I can keep a better eye on this.
 
-## Assets
+### WezTerm
+Fast, GPU-accelerated terminal emulator with great config flexibility. My setup includes custom key bindings, tab bar styling, and integration with the Bamboo color scheme.
 
-### static/fonts
+### AeroSpace
+Tiling window manager for macOS. Configured for keyboard-driven window management with vim-style navigation.
 
-These are my fonts, and yes, they're encrypted. Pay your designers!!! See [ASSET_ENCRYPTION](docs/ASSET_ENCRYPTION.md) for encryption/decryption workflow.
+## 🚀 Quick Tips
 
-## Custom 
+```bash
+# Update everything at once
+dot update
 
-### bin/
+# Check if dotfiles are healthy
+dot doctor
 
-Custom command-line utilities (tmux-sessionizer, colorcat, mkbin, etc.). See [BIN_TOOLS](docs/BIN_TOOLS.md) for complete documentation.
+# Preview package installation
+dot package sync --dry-run
 
-### scripts/
+# Re-link configs after changes
+dot link
 
-These are other custom things I've written that support the tools in `bin` or are otherwise used in automation. For the most part, these will need to be sourced manually.
+# View all available commands
+dot --help
+```
 
-### infra/
+## 🤝 Contributing
 
-Todo: add my dev cluster config
+This is my personal dotfiles repo, but feel free to:
+- Fork it for your own use
+- Submit issues for bugs
+- Suggest improvements via PRs
 
-### links.manifest
+## 📜 License
 
-This is the manifest for my awful custom symlinking script. See [LINKING](docs/LINKING.md) for details.
+Do whatever you want with this. MIT licensed (see LICENSE file if I remember to add one).
 
-## Todo
+---
 
-I'm working on getting all my other configurations added to this repo. It's way past time I start tracking my dotfiles in version control, but it's a work in progress B)
+**Inspiration**: This setup was inspired by [dmmulroy's dotfiles](https://github.com/dmmulroy/.dotfiles) and various other dotfile repos in the community.

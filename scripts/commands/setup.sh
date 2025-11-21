@@ -198,6 +198,46 @@ EOF
     info "Install uv with mise or manually to enable Python tool installation"
   fi
 
+  # TPM (Tmux Plugin Manager)
+  info "Setting up Tmux Plugin Manager..."
+  if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+    if $dry_run; then
+      info "Would clone TPM to ~/.tmux/plugins/tpm"
+      info "Would install tmux plugins"
+    else
+      git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+      success "TPM cloned"
+
+      # Install plugins
+      if [[ -f "$HOME/.tmux/plugins/tpm/bin/install_plugins" ]]; then
+        info "Installing tmux plugins..."
+        tmux start-server 2>/dev/null || true
+        tmux set-environment -g TMUX_PLUGIN_MANAGER_PATH "$HOME/.tmux/plugins" 2>/dev/null || true
+        "$HOME/.tmux/plugins/tpm/bin/install_plugins"
+        success "Tmux plugins installed"
+      fi
+    fi
+  else
+    success "TPM already installed"
+
+    # Check if plugins are installed
+    local plugin_count=$(find "$HOME/.tmux/plugins" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+    if [[ $plugin_count -eq 1 ]]; then
+      # Only tpm directory exists, no plugins
+      if $dry_run; then
+        info "Would install tmux plugins"
+      else
+        info "Installing tmux plugins..."
+        tmux start-server 2>/dev/null || true
+        tmux set-environment -g TMUX_PLUGIN_MANAGER_PATH "$HOME/.tmux/plugins" 2>/dev/null || true
+        "$HOME/.tmux/plugins/tpm/bin/install_plugins"
+        success "Tmux plugins installed"
+      fi
+    else
+      success "Tmux plugins already installed ($((plugin_count - 1)) plugins)"
+    fi
+  fi
+
   # macOS-specific defaults
   if [[ $OS == "macos" ]]; then
     info "Setting macOS defaults..."

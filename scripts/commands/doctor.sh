@@ -213,7 +213,37 @@ EOF
   fi
   echo ""
 
-  # Check 8: Dotfiles Repository
+  # Check 8: Tmux Plugins
+  echo "━━━ Tmux Plugins (TPM) ━━━"
+  if command -v tmux &> /dev/null; then
+    if [[ -d "$HOME/.tmux/plugins/tpm" ]]; then
+      success "TPM installed"
+
+      # Count plugins (excluding tpm itself)
+      local plugin_count=$(find "$HOME/.tmux/plugins" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+      local actual_plugins=$((plugin_count - 1))
+
+      if [[ $actual_plugins -gt 0 ]]; then
+        success "Tmux plugins installed ($actual_plugins plugins)"
+        # List them
+        find "$HOME/.tmux/plugins" -mindepth 1 -maxdepth 1 -type d -not -name "tpm" | while read -r dir; do
+          echo "  → $(basename "$dir")"
+        done
+      else
+        warn "No tmux plugins installed"
+        echo "  Run: ~/.tmux/plugins/tpm/bin/install_plugins"
+        echo "  Or: dot setup (will auto-install)"
+      fi
+    else
+      warn "TPM not installed"
+      echo "  Run: dot setup (will auto-install)"
+    fi
+  else
+    warn "tmux not installed"
+  fi
+  echo ""
+
+  # Check 9: Dotfiles Repository
   echo "━━━ Dotfiles Repository ━━━"
   if [[ -d "$DOTFILES/.git" ]]; then
     success "Dotfiles is a git repository"

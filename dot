@@ -32,7 +32,7 @@ error() {
 }
 
 usage() {
-  cat << EOF
+  cat <<EOF
 dot - Dotfiles management CLI
 
 Usage:
@@ -72,40 +72,40 @@ main() {
   shift
 
   case "$command" in
-    setup)
-      source "$COMMANDS_DIR/setup.sh"
-      cmd_setup "$@"
-      ;;
-    link)
-      source "$COMMANDS_DIR/link.sh"
-      cmd_link "$@"
-      ;;
-    unlink)
-      source "$COMMANDS_DIR/unlink.sh"
-      cmd_unlink "$@"
-      ;;
-    doctor)
-      source "$COMMANDS_DIR/doctor.sh"
-      cmd_doctor "$@"
-      ;;
-    update)
-      source "$COMMANDS_DIR/update.sh"
-      cmd_update "$@"
-      ;;
-    package)
-      source "$COMMANDS_DIR/package.sh"
-      cmd_package "$@"
-      ;;
-    help|--help|-h)
-      usage
-      exit 0
-      ;;
-    *)
-      error "Unknown command: $command"
-      echo ""
-      usage
-      exit 1
-      ;;
+  setup)
+    source "$COMMANDS_DIR/setup.sh"
+    cmd_setup "$@"
+    ;;
+  link)
+    source "$COMMANDS_DIR/link.sh"
+    cmd_link "$@"
+    ;;
+  unlink)
+    source "$COMMANDS_DIR/unlink.sh"
+    cmd_unlink "$@"
+    ;;
+  doctor)
+    source "$COMMANDS_DIR/doctor.sh"
+    cmd_doctor "$@"
+    ;;
+  update)
+    source "$COMMANDS_DIR/update.sh"
+    cmd_update "$@"
+    ;;
+  package)
+    source "$COMMANDS_DIR/package.sh"
+    cmd_package "$@"
+    ;;
+  help | --help | -h)
+    usage
+    exit 0
+    ;;
+  *)
+    error "Unknown command: $command"
+    echo ""
+    usage
+    exit 1
+    ;;
   esac
 }
 

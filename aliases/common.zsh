@@ -34,7 +34,10 @@ alias proj="cd $PROJECTS"
 alias dot="cd $DOTFILES"
 
 # fnm
-alias nvm="fnm" 
+alias nvm="fnm"
+
+# pnpm
+alias pnpx="pnpm dlx" 
 
 # docker/k8s
 alias kctx="kubectl set-context"

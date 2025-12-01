@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+case "$1" in
+  enable)
+    defaults write -g ApplePressAndHoldEnabled -bool true
+    echo "Accent menu enabled (press and hold for accents)"
+    ;;
+  disable)
+    defaults write -g ApplePressAndHoldEnabled -bool false
+    echo "Accent menu disabled (key repeat enabled)"
+    ;;
+  *)
+    echo "Usage: macos-accents <enable|disable>"
+    exit 1
+    ;;
+esac
+
+

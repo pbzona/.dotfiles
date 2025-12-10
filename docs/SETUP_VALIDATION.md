@@ -61,16 +61,15 @@ ln -sf ~/.dotfiles/.config/mise/config.toml ~/.config/mise/config.toml
 ### Step 4: Link Dotfiles
 
 ```bash
-./scripts/link.sh all
+./dot link
 ```
 
 **What this does:**
-1. Creates symlinks from dotfiles to home directory
-2. Backs up existing configs to `~/.backup_config/`
-3. Special steps:
-   - **neovim**: Cleans `~/.local/{share,state}/nvim` before linking
-   - **tmux**: Installs tmux plugin manager (tpm)
-   - **zsh**: Links .zshrc
+1. Uses GNU Stow to create symlinks from `~/.dotfiles/home/` to `~`
+2. Links all configuration files including:
+   - Shell configs (`.zshrc`, `.tmux.conf`, `.aerospace.toml`)
+   - Application configs (`.config/nvim`, `.config/wezterm`, `.config/opencode`, `.config/mise`)
+3. Stow will skip files that already exist and conflict (run `dot link --dry-run` to preview)
 
 ### Step 5: Restart Terminal
 
@@ -89,7 +88,6 @@ These operations check before installing:
 - **.privaterc**: Only sources if file exists (optional)
 - **mise tools**: mise handles version management, won't break existing tools
 - **brew packages**: brew upgrade if already installed
-- **tmux tpm**: Only clones if `~/.tmux/plugins/tpm` doesn't exist
 
 ### ⚠️ Operations That WILL Overwrite
 
@@ -191,6 +189,8 @@ $DOTFILES/scripts
 - Extracts to `/opt/nvim-linux-x86_64`
 - Creates symlink: `~/.local/bin/nvim -> /opt/nvim-linux-x86_64/bin/nvim`
 
+**Note:** Neovim state directories (`~/.local/share/nvim` and `~/.local/state/nvim`) should be cleaned manually before first run if you want a fresh LazyVim setup.
+
 ### 4. Tool Installation Summary
 
 | Tool | Installed By | Location | Overwrite |
@@ -227,13 +227,12 @@ After running setup.sh, verify:
 - [ ] Neovim installed: `nvim --version`
 - [ ] Core tools: `fzf --version`, `zoxide --version`, `gh --version`
 
-After running link.sh all, verify:
+After running dot link, verify:
 
 - [ ] `.zshrc` is symlink: `ls -la ~/.zshrc`
 - [ ] `.tmux.conf` is symlink: `ls -la ~/.tmux.conf`
 - [ ] Neovim config is symlink: `ls -la ~/.config/nvim`
-- [ ] Backups created: `ls ~/.backup_config/`
-- [ ] TPM installed: `ls ~/.tmux/plugins/tpm`
+
 
 After restarting terminal, verify:
 
@@ -298,6 +297,19 @@ sudo -v
 source ~/.zshrc
 ```
 
+### Stow conflicts with existing files
+```bash
+# Preview what would be linked
+./dot link --dry-run
+
+# Backup and remove conflicting files
+mv ~/.zshrc ~/.zshrc.backup
+mv ~/.tmux.conf ~/.tmux.conf.backup
+
+# Try linking again
+./dot link
+```
+
 ### Mise tools not installing
 ```bash
 # Verify mise config is linked
@@ -344,7 +356,7 @@ For a completely fresh Mac:
 
 4. **Link configurations**:
    ```bash
-   ./scripts/link.sh all
+   ./dot link
    ```
 
 5. **Restart terminal** and enjoy!
@@ -361,7 +373,8 @@ The setup script is **mostly safe** but will:
 
 **Critical step:** Link mise config before running setup.sh!
 
-The linking script is **completely safe** because it:
-- Backs up all existing configs with timestamps
+The `dot link` command (using GNU Stow) is **completely safe** because it:
 - Only creates symlinks (easily reversible)
-- Checks for existing files before linking
+- Will show errors if files already exist (prevents accidental overwrites)
+- Supports `--dry-run` to preview changes
+- Can be undone with `./dot unlink`

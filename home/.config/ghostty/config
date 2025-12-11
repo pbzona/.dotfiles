@@ -1,0 +1,29 @@
+# Ghostty Configuration
+
+# Theme
+theme = bamboo-multiplex
+
+# Font Configuration
+font-family = "Berkeley Mono"
+font-family = "Dank Mono"
+font-family = "MartianMono Nerd Font"
+font-family = "GeistMono Nerd Font"
+font-family = "Lilex Nerd Font"
+font-size = 24
+
+# Window Configuration
+window-padding-x = 10
+window-padding-y = 10
+window-padding-balance = true
+
+# Opacity
+background-opacity = 1.0
+
+# Behavior
+working-directory = home
+
+# Keybindings - Leader key setup similar to WezTerm
+# Note: Ghostty doesn't have a "leader" concept like WezTerm, so we use key sequences
+# Split keybinds (using ctrl+a as a prefix)
+keybind = ctrl+a>shift+backslash=new_split:right
+keybind = ctrl+a>minus=new_split:down

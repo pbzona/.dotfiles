@@ -27,8 +27,7 @@ This document explains how the dotfiles system is organized and how all the piec
 │   │   ├── doctor.sh
 │   │   ├── update.sh
 │   │   └── package.sh
-│   ├── lib.sh            # Shared utilities
-│   └── packages/         # Legacy installers (deprecated)
+│   └── lib.sh            # Shared utilities
 ├── bin/                  # Custom tools
 ├── aliases/              # Shell aliases
 ├── docs/                 # Documentation

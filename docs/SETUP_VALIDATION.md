@@ -1,26 +1,74 @@
-# Setup Script Validation & Installation Guide
+# Setup & Installation Guide
 
-This document validates the setup.sh script and provides the correct order of operations for setting up dotfiles on a fresh Mac.
+This guide walks through setting up dotfiles on a fresh machine using the `./dot` CLI.
 
 ---
 
 ## Prerequisites
 
-Before running any setup scripts, ensure you have:
+Before starting, ensure you have:
 
 1. **macOS** (Darwin) or **Linux** (Ubuntu/Debian)
 2. **zsh** as your default shell
    ```bash
    echo $SHELL  # Should show: /bin/zsh or similar
+   # If not, change it:
+   chsh -s $(which zsh)
    ```
 3. **Git** installed (to clone this repo)
 4. **Internet connection** (for downloading tools)
 
 ---
 
-## Installation Order
+## Quick Start
 
-### Step 1: Clone the Repository
+```bash
+# 1. Clone dotfiles
+git clone <your-repo-url> ~/.dotfiles
+cd ~/.dotfiles
+
+# 2. Preview what will be installed
+./dot setup --dry-run
+
+# 3. Run full setup
+./dot setup
+
+# 4. Restart terminal and verify
+./dot doctor
+```
+
+---
+
+## What `dot setup` Does
+
+The setup command handles everything automatically:
+
+1. ✓ Creates `~/.local/{bin,share,state}` directories
+2. ✓ Verifies zsh is your default shell
+3. ✓ Installs Homebrew (macOS only)
+4. ✓ Installs all packages from `packages/Brewfile`
+5. ✓ Installs mise (runtime version manager)
+6. ✓ Installs eget (binary downloader utility)
+7. ✓ Ensures fzf-tmux wrapper is available (for tmux sessionx plugin)
+8. ✓ Clones and sets up Tmux Plugin Manager (TPM)
+9. ✓ Installs all tmux plugins
+10. ✓ Links dotfiles using GNU Stow
+11. ✓ Installs mise tools (languages and CLI utilities)
+12. ✓ Installs Python tools via uv
+13. ✓ Sets macOS defaults (macOS only)
+
+### Safety Features
+
+- **Idempotent**: Can be run multiple times safely
+- **Checks first**: Won't reinstall if already present
+- **Dry-run support**: Preview with `./dot setup --dry-run`
+- **Non-destructive**: Uses package managers and symlinks
+
+---
+
+## Installation Steps (Detailed)
+
+### Step 1: Clone Repository
 
 ```bash
 cd ~
@@ -28,241 +76,111 @@ git clone <your-repo-url> .dotfiles
 cd .dotfiles
 ```
 
-### Step 2: Link Mise Configuration (CRITICAL)
-
-**⚠️ MUST DO THIS FIRST** - The mise config needs to be in place before running setup.sh:
+### Step 2: Preview Setup (Optional)
 
 ```bash
-# Link mise config so setup.sh can find it
-mkdir -p ~/.config/mise
-ln -sf ~/.dotfiles/.config/mise/config.toml ~/.config/mise/config.toml
+./dot setup --dry-run
 ```
 
-### Step 3: Run Setup Script
+This shows what would be installed without making any changes.
+
+### Step 3: Run Setup
 
 ```bash
-./scripts/setup.sh
+./dot setup
 ```
 
-**What this does:**
-1. Sources `~/.privaterc` if it exists (optional)
-2. Creates `~/.local/{bin,share,state}` directories
-3. Checks that zsh is your shell
-4. **(macOS only)** Installs Homebrew if missing
-5. **(macOS only)** Installs nerd fonts via brew
-6. Installs mise-en-place and runs `mise install` (uses the config you linked)
-7. Installs eget (binary downloader)
-8. Installs neovim to `/opt/nvim` (requires sudo password)
-9. Installs fzf, zoxide, yazi via eget
-10. Installs core packages (brew on macOS, apt on Linux)
-11. Installs cheatsheet tool (cht.sh)
-12. Installs posting via uv (Python TUI REST client)
+**What to expect:**
+- Homebrew installation will prompt for password (macOS)
+- Package installation takes 5-15 minutes depending on network
+- Tmux plugin installation may show warnings (safe to ignore)
+- You'll see colored output: ✓ (success), ⚠ (warning), ℹ (info)
 
-### Step 4: Link Dotfiles
+### Step 4: Restart Terminal
+
+Close and reopen your terminal to load new configurations.
+
+### Step 5: Verify Installation
 
 ```bash
+./dot doctor
+```
+
+This runs comprehensive health checks and reports any issues.
+
+---
+
+## Package Management
+
+All system packages are managed in `packages/Brewfile`:
+
+### View installed packages
+```bash
+./dot package list
+```
+
+### Add a new package
+```bash
+./dot package add bat
+```
+
+### Remove a package
+```bash
+./dot package remove bat
+```
+
+### Sync Brewfile (install missing packages)
+```bash
+./dot package sync
+```
+
+---
+
+## Configuration Management
+
+Dotfiles are symlinked using **GNU Stow**:
+
+```bash
+# Link all configs (already done by setup)
 ./dot link
+
+# Preview links without creating them
+./dot link --dry-run
+
+# Remove all symlinks
+./dot unlink
 ```
 
-**What this does:**
-1. Uses GNU Stow to create symlinks from `~/.dotfiles/home/` to `~`
-2. Links all configuration files including:
-   - Shell configs (`.zshrc`, `.tmux.conf`, `.aerospace.toml`)
-   - Application configs (`.config/nvim`, `.config/wezterm`, `.config/opencode`, `.config/mise`)
-3. Stow will skip files that already exist and conflict (run `dot link --dry-run` to preview)
-
-### Step 5: Restart Terminal
-
-Close and reopen your terminal to load the new .zshrc configuration.
+**What gets linked:**
+- `.zshrc` → `~/.dotfiles/home/.zshrc`
+- `.tmux.conf` → `~/.dotfiles/home/.tmux.conf`
+- `.aerospace.toml` → `~/.dotfiles/home/.aerospace.toml`
+- `.config/*` → `~/.dotfiles/home/.config/*`
 
 ---
 
-## Script Validation Results
+## Tool Installation Locations
 
-### ✅ Checks That Will NOT Overwrite
-
-These operations check before installing:
-
-- **Homebrew**: Only installs if `brew` command not found
-- **mise**: Only installs if `~/.local/bin/mise` doesn't exist
-- **.privaterc**: Only sources if file exists (optional)
-- **mise tools**: mise handles version management, won't break existing tools
-- **brew packages**: brew upgrade if already installed
-
-### ⚠️ Operations That WILL Overwrite
-
-These will overwrite existing files/directories without asking:
-
-1. **eget binary** (line 54)
-   - Downloads and overwrites `~/.local/bin/eget`
-   - Impact: Low (eget is just a downloader)
-
-2. **neovim** (line 57, install-neovim.sh)
-   - **Requires sudo password**
-   - Removes `/opt/nvim` if exists
-   - Uninstalls brew neovim if exists
-   - Downloads and extracts latest neovim to `/opt/nvim`
-   - Impact: Medium (will replace existing neovim)
-
-3. **fzf, zoxide, yazi binaries** (lines 59-66)
-   - Downloads and overwrites files in `~/.local/bin/`
-   - Impact: Low (standalone binaries)
-
-4. **cht.sh** (install-cheatsheet-packages.sh)
-   - Overwrites `~/.local/bin/cht.sh`
-   - Impact: Low
-
-### 🔒 Operations Requiring Sudo
-
-- **install-neovim.sh**: Requires sudo to extract to `/opt/nvim`
-- **(Linux only)** apt package installation in install-core-packages.sh
+| Tool | Installed By | Location |
+|------|--------------|----------|
+| Homebrew packages | Brewfile | `/opt/homebrew/bin/` (macOS) |
+| mise | curl installer | `~/.local/bin/mise` |
+| mise-managed tools | mise | `~/.local/share/mise/installs/` |
+| fzf-tmux wrapper | curl (setup) | `~/.local/bin/fzf-tmux` |
+| Custom bin tools | dotfiles | `~/.dotfiles/bin/` |
+| Python tools (uv) | uv | `~/.local/bin/` |
+| Tmux plugins | TPM | `~/.tmux/plugins/` |
 
 ---
 
-## Dependencies Between Scripts
-
-### Script Call Chain
-
-```
-setup.sh
-├── sources lib.sh (for detect_os function)
-├── sources install-neovim.sh
-├── sources install-core-packages.sh
-│   └── sources lib.sh (for detect_os function)
-└── sources install-cheatsheet-packages.sh
-```
-
-### External Dependencies
-
-**setup.sh depends on:**
-- `curl` (for downloading installers)
-- `git` (mise installer uses it, tpm installation)
-- `brew` (macOS - installed by script if missing)
-- `apt` (Linux - assumed pre-installed)
-- `uv` (installed by mise from config)
-
----
-
-## Special Notes
-
-### 1. Mise Configuration Location
-
-The mise config at `.config/mise/config.toml` needs to be linked to `~/.config/mise/config.toml` BEFORE running setup.sh. Otherwise `mise install` (line 44) won't know what to install.
-
-**Current tools in mise config:**
-- **Languages**: bun 1.2, go 1.25, node 24, rust 1.84
-- **CLI Tools**: bat, eza, fd, ripgrep, jq, github-cli, pnpm, and 30+ utilities
-- **Python Tools**: uv 0.5
-
-### 2. Path Configuration
-
-Tools get installed to multiple locations:
-- **mise-managed**: `~/.local/share/mise/installs/`
-- **eget binaries**: `~/.local/bin/`
-- **neovim**: `/opt/nvim/bin/`
-- **brew packages**: `/opt/homebrew/bin/` (macOS)
-
-Your `.zshrc` adds these to PATH:
-```zsh
-$HOME/bin
-$HOME/.opencode/bin
-$HOME/.local/share
-$HOME/.local/bin
-$DOTFILES/bin
-$DOTFILES/scripts
-```
-
-### 3. Neovim Installation Quirks
-
-**install-neovim.sh** has some unique behavior:
-
-**On macOS:**
-- Removes `/opt/nvim` if it exists
-- Uninstalls brew neovim if installed
-- Downloads arm64 tarball
-- Runs `xattr -c` to remove quarantine flag
-- Extracts to `/opt/nvim` (requires sudo)
-- Creates symlink: `~/.local/bin/nvim -> /opt/nvim/bin/nvim`
-- Cleans up tarball
-
-**On Linux:**
-- Extracts to `/opt/nvim-linux-x86_64`
-- Creates symlink: `~/.local/bin/nvim -> /opt/nvim-linux-x86_64/bin/nvim`
-
-**Note:** Neovim state directories (`~/.local/share/nvim` and `~/.local/state/nvim`) should be cleaned manually before first run if you want a fresh LazyVim setup.
-
-### 4. Tool Installation Summary
-
-| Tool | Installed By | Location | Overwrite |
-|------|--------------|----------|-----------|
-| mise | curl installer | `~/.local/bin/mise` | No (checks first) |
-| eget | curl installer | `~/.local/bin/eget` | Yes |
-| neovim | manual install | `/opt/nvim` + symlink in `~/.local/bin` | Yes (removes first) |
-| fzf | eget | `~/.local/bin/fzf` | Yes |
-| zoxide | eget | `~/.local/bin/zoxide` | Yes |
-| yazi | eget | `~/.local/bin/yazi` | Yes |
-| cht.sh | curl | `~/.local/bin/cht.sh` | Yes |
-| bat, eza, fd, etc. | mise | `~/.local/share/mise/` | No (mise managed) |
-| docker, tmux, etc. | brew/apt | system paths | No (pkg manager) |
-| posting | uv tool | `~/.local/bin/posting` | No (uv managed) |
-
----
-
-## Validation Checklist
-
-Before running on a fresh Mac, verify:
-
-- [ ] Repository cloned to `~/.dotfiles`
-- [ ] Mise config linked: `~/.config/mise/config.toml` → `~/.dotfiles/.config/mise/config.toml`
-- [ ] Default shell is zsh: `echo $SHELL`
-- [ ] Git is installed: `git --version`
-- [ ] Internet connection works
-- [ ] Comfortable entering sudo password (for neovim install)
-
-After running setup.sh, verify:
-
-- [ ] Homebrew installed (macOS): `brew --version`
-- [ ] Mise installed: `mise --version`
-- [ ] Mise tools installed: `mise list`
-- [ ] Neovim installed: `nvim --version`
-- [ ] Core tools: `fzf --version`, `zoxide --version`, `gh --version`
-
-After running dot link, verify:
-
-- [ ] `.zshrc` is symlink: `ls -la ~/.zshrc`
-- [ ] `.tmux.conf` is symlink: `ls -la ~/.tmux.conf`
-- [ ] Neovim config is symlink: `ls -la ~/.config/nvim`
-
-
-After restarting terminal, verify:
-
-- [ ] Mise activated: `mise current`
-- [ ] Zinit loaded: `zinit list`
-- [ ] Aliases work: `l` (should be eza), `v` (should be nvim)
-- [ ] Zoxide works: `z` (should be cd replacement)
-- [ ] FZF works: `Ctrl+R` (should show history search)
-
----
-
-## Dry Run Testing
-
-To test without overwriting anything:
+## Updating Everything
 
 ```bash
-# Check what mise would install
-mise ls --missing
+# Update Homebrew packages, mise tools, and pull dotfiles changes
+./dot update
 
-# Check what brew would install (macOS)
-brew bundle check --file=/dev/stdin <<EOF
-brew "font-geist-mono-nerd-font"
-brew "font-lilex-nerd-font"
-EOF
-
-# Check if binaries exist before overwriting
-ls -la ~/.local/bin/{eget,fzf,zoxide,yazi,nvim,cht.sh}
-
-# Check if neovim exists
-ls -la /opt/nvim
+# Preview updates without applying
+./dot update --dry-run
 ```
 
 ---
@@ -270,39 +188,35 @@ ls -la /opt/nvim
 ## Troubleshooting
 
 ### "Please set up zsh and try again"
+
 ```bash
-# Change shell to zsh
 chsh -s $(which zsh)
 # Log out and back in
 ```
 
-### "mise: command not found" after setup
+### "brew: command not found" (after setup on macOS)
+
 ```bash
-# Add to PATH manually
+# Add Homebrew to PATH
+eval "$(/opt/homebrew/bin/brew shellenv)"
+# Then restart terminal
+```
+
+### "mise: command not found" (after setup)
+
+```bash
 export PATH="$HOME/.local/bin:$PATH"
 eval "$(~/.local/bin/mise activate zsh)"
-```
-
-### Neovim install fails with permission denied
-```bash
-# Ensure sudo works
-sudo -v
-# Run setup again
-./scripts/setup.sh
-```
-
-### Missing PATH after linking .zshrc
-```bash
-# Restart terminal or
-source ~/.zshrc
+# Then restart terminal
 ```
 
 ### Stow conflicts with existing files
+
 ```bash
-# Preview what would be linked
+# Check what conflicts exist
 ./dot link --dry-run
 
-# Backup and remove conflicting files
+# Backup conflicting files
 mv ~/.zshrc ~/.zshrc.backup
 mv ~/.tmux.conf ~/.tmux.conf.backup
 
@@ -310,71 +224,157 @@ mv ~/.tmux.conf ~/.tmux.conf.backup
 ./dot link
 ```
 
-### Mise tools not installing
-```bash
-# Verify mise config is linked
-ls -la ~/.config/mise/config.toml
-# Should point to ~/.dotfiles/.config/mise/config.toml
+### Tmux sessionx plugin not working
 
-# Manually install mise tools
+The setup script automatically installs the `fzf-tmux` wrapper script required by the sessionx plugin. If it's not working:
+
+```bash
+# Verify fzf-tmux is installed
+which fzf-tmux
+
+# If not found, install manually:
+curl -fsSL https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -o ~/.local/bin/fzf-tmux
+chmod +x ~/.local/bin/fzf-tmux
+```
+
+### Neovim/mise tools not working
+
+```bash
+# Check mise installation
+mise doctor
+
+# Reinstall mise tools
 mise install
+
+# Verify PATH includes mise
+echo $PATH | grep mise
 ```
 
 ---
 
-## Recommended Installation Flow
+## Validation Checklist
 
-For a completely fresh Mac:
+After setup, verify these work:
 
-1. **Initial setup** (don't need dotfiles yet):
+**Basic Environment:**
+- [ ] `brew --version` (macOS)
+- [ ] `mise --version`
+- [ ] `mise list` (shows installed tools)
+- [ ] `nvim --version`
+- [ ] `tmux -V`
+
+**Shell Features:**
+- [ ] `l` command (eza alias)
+- [ ] `v` command (nvim alias)
+- [ ] `z <dir>` (zoxide)
+- [ ] `Ctrl+R` (fzf history search)
+
+**Tmux:**
+- [ ] Start tmux: `tmux`
+- [ ] Prefix + o (sessionx plugin)
+- [ ] Tmux plugins loaded: `ls ~/.tmux/plugins/`
+
+**Symlinks:**
+- [ ] `ls -la ~/.zshrc` (should point to dotfiles)
+- [ ] `ls -la ~/.config/nvim` (should point to dotfiles)
+
+**Development Tools:**
+- [ ] `node --version`
+- [ ] `python --version`
+- [ ] `go version`
+- [ ] `cargo --version`
+
+---
+
+## Fresh Mac Installation Flow
+
+For a completely new Mac from scratch:
+
+1. **Initial OS setup:**
    ```bash
    # Install Command Line Tools
    xcode-select --install
 
-   # Change shell to zsh (if not default)
+   # Change default shell to zsh
    chsh -s /bin/zsh
 
    # Log out and log back in
    ```
 
-2. **Clone and prepare**:
+2. **Clone and setup:**
    ```bash
    cd ~
-   git clone <your-repo> .dotfiles
+   git clone <your-repo-url> .dotfiles
    cd .dotfiles
-
-   # Critical: Link mise config first
-   mkdir -p ~/.config/mise
-   ln -sf ~/.dotfiles/.config/mise/config.toml ~/.config/mise/config.toml
+   ./dot setup
    ```
 
-3. **Run setup**:
+3. **Restart terminal and verify:**
    ```bash
-   ./scripts/setup.sh
-   # Enter sudo password when prompted for neovim
+   ./dot doctor
    ```
 
-4. **Link configurations**:
+4. **Optional: Restore encrypted assets**
    ```bash
-   ./dot link
+   # If you have encrypted fonts or other assets
+   ./bin/decrypt-assets
    ```
 
-5. **Restart terminal** and enjoy!
+---
+
+## Directory Structure
+
+```
+~/.dotfiles/
+├── dot                    # Main CLI entry point
+├── home/                  # Configs (Stow-managed → ~)
+│   ├── .zshrc
+│   ├── .tmux.conf
+│   └── .config/
+├── packages/
+│   ├── Brewfile          # All system packages
+│   └── Brewfile.work     # Work-specific (optional)
+├── scripts/
+│   ├── commands/         # CLI command implementations
+│   └── lib.sh            # Shared utilities
+├── bin/                  # Custom tools
+└── docs/                 # Documentation
+```
+
+---
+
+## Additional Commands
+
+```bash
+# Show all available commands
+./dot --help
+
+# Get help for specific command
+./dot setup --help
+./dot package --help
+
+# Run comprehensive diagnostics
+./dot doctor
+```
+
+---
+
+## See Also
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) - System design and architecture
+- [BIN_TOOLS.md](BIN_TOOLS.md) - Custom binary tools
+- [ASSET_ENCRYPTION.md](ASSET_ENCRYPTION.md) - Encrypted asset management
 
 ---
 
 ## Summary
 
-The setup script is **mostly safe** but will:
-- ✅ Check before installing most things
-- ⚠️ Overwrite some binaries in `~/.local/bin/`
-- ⚠️ Require sudo for neovim installation
-- ⚠️ Require mise config to be linked first
+The `./dot` CLI provides a complete dotfiles management system:
 
-**Critical step:** Link mise config before running setup.sh!
+- ✅ **Simple**: One command to set up everything
+- ✅ **Safe**: Idempotent, dry-run support, uses symlinks
+- ✅ **Fast**: Parallel installation, efficient package managers
+- ✅ **Maintainable**: Modular design, clear structure
+- ✅ **Reproducible**: Version-controlled Brewfile and mise configs
 
-The `dot link` command (using GNU Stow) is **completely safe** because it:
-- Only creates symlinks (easily reversible)
-- Will show errors if files already exist (prevents accidental overwrites)
-- Supports `--dry-run` to preview changes
-- Can be undone with `./dot unlink`
+Start with `./dot setup --dry-run` to see what would happen, then `./dot setup` to install everything!

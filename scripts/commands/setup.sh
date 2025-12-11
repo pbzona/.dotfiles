@@ -198,6 +198,24 @@ EOF
     info "Install uv with mise or manually to enable Python tool installation"
   fi
 
+  # Ensure fzf-tmux wrapper is available (required by tmux-sessionx plugin)
+  info "Setting up fzf-tmux wrapper..."
+  if command -v fzf &> /dev/null; then
+    if ! command -v fzf-tmux &> /dev/null; then
+      if $dry_run; then
+        info "Would download fzf-tmux wrapper to ~/.local/bin"
+      else
+        curl -fsSL https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -o "$HOME/.local/bin/fzf-tmux"
+        chmod +x "$HOME/.local/bin/fzf-tmux"
+        success "fzf-tmux wrapper installed"
+      fi
+    else
+      success "fzf-tmux already available"
+    fi
+  else
+    warn "fzf not installed - skipping fzf-tmux setup"
+  fi
+
   # TPM (Tmux Plugin Manager)
   info "Setting up Tmux Plugin Manager..."
   if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then

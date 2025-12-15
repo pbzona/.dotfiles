@@ -37,7 +37,7 @@ alias dot="cd $DOTFILES"
 alias nvm="fnm"
 
 # pnpm
-alias pnpx="pnpm dlx" 
+alias pnpx="pnpm dlx"
 
 # docker/k8s
 alias kctx="kubectl set-context"

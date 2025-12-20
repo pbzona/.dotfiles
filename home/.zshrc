@@ -29,6 +29,7 @@ OS=$(detect_os)
 #   config.bun
 #   config.neovim
 #   config.golang
+#   config.haskell
 #   config.zoxide
 #   config.fzf
 #   config.aliases
@@ -193,11 +194,11 @@ fi
 # =============================================================================
 
 # Need this in order for VS Code to properly switch binary versions, otherwise would use mise
-FNM_PATH="$HOME/.local/share/fnm"
+FNM_PATH="/opt/homebrew/opt/fnm/bin"
 if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
   eval "`fnm env`"
 fi
+
 
 # =============================================================================
 # NEOVIM
@@ -257,6 +258,13 @@ fi
 # export GOROOT=$HOME/.go
 # export GOPATH=$HOME/go
 # export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+
+# =============================================================================
+# HASKELL
+# config.haskell
+# =============================================================================
+[ -f "/Users/phil/.ghcup/env" ] && . "/Users/phil/.ghcup/env" # ghcup-env
 
 # =============================================================================
 # ZOXIDE

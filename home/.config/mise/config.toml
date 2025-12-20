@@ -49,6 +49,7 @@ gitconfig = "1.0"
 hostctl ="1.1"
 hwatch = "0.3"
 jc = "1.25"
+watchexec = "latest"
 
 # Optional/Commented utilities
 # alp = "1.0"

@@ -16,7 +16,7 @@ bun = "1.2"
 elixir = "latest"
 erlang = "latest"
 go = "1.25"
-node = "24.11.1"
+node = "24"
 python = "3.12"
 rust = "1.84"
 

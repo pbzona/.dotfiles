@@ -23,6 +23,7 @@ OS=$(detect_os)
 #   config.path
 #   config.history
 #   config.sourcing
+#   config.functions
 #   config.mise / config.tools
 #   config.fnm
 #   config.pnpm
@@ -178,6 +179,13 @@ SECRETS_FILE="$HOME/.privaterc"
 if [[ -f "$SECRETS_FILE" ]]; then
   source "$SECRETS_FILE"
 fi
+
+# =============================================================================
+# FUNCTIONS
+# config.functions
+# =============================================================================
+
+function killport() { lsof -i TCP:$1 | grep LISTEN | awk '{print $2}' | xargs kill -9 }
 
 # =============================================================================
 # MISE / DEV TOOLS

@@ -18,7 +18,7 @@ alias reload="source $HOME/.zshrc"
 alias ta="tmux attach"
 alias td="tmux detach"
 alias trs="tmux rename-session"
-alias trw="tmux rename-window"
+alias trw="$DOTFILES/scripts/tmux-rename-window.sh"
 alias ts="tmux-sessionizer" # Custom script in ~/.local/bin
 alias tx="tmuxinator"
 

@@ -26,6 +26,9 @@ cask "nikitabobko/tap/aerospace"  # Tiling window manager
 # Editor
 brew "neovim"
 
+# Theorem Proving
+brew "elan-init"      # Lean version manager
+
 # File & Text Processing
 brew "bat"            # Better cat
 brew "bat-extras"     # Bonus bat commands (batgrep, batman, etc.)

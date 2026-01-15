@@ -50,5 +50,6 @@ alias gp="git push"
 alias gl="git log --oneline" 
 alias nope="git log --oneline | head -n 1 | cut -d' ' -f1 | xargs git revert"
 
+
 # miscellaneous
 alias chx="chmod +x"

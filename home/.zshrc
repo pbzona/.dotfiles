@@ -122,13 +122,13 @@ zinit cdreplay -q
 setopt extended_glob null_glob
 
 path=(
-  $path
+  $HOME/.local/bin
   $HOME/bin
   $HOME/.opencode/bin
   $HOME/.local/share
-  $HOME/.local/bin
   $DOTFILES/bin
   $DOTFILES/scripts
+  $path
 )
 
 # Weird homebrew shit - I don't want the full server installed, but there's a conflict

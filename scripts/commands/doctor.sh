@@ -65,7 +65,8 @@ EOF
     if [[ -L "$HOME/.zshrc" ]]; then
       success ".zshrc is symlinked"
       local target=$(readlink "$HOME/.zshrc")
-      if [[ -f "$target" ]]; then
+      # Check if symlink target exists (handles both absolute and relative paths)
+      if [[ -e "$HOME/.zshrc" ]]; then
         echo "  → $target"
       else
         error ".zshrc points to missing file: $target"
@@ -153,6 +154,7 @@ EOF
     "$HOME/.aerospace.toml"
     "$HOME/.config/nvim"
     "$HOME/.config/wezterm"
+    "$HOME/.config/ghostty"
     "$HOME/.config/mise"
   )
 
@@ -165,7 +167,8 @@ EOF
     if [[ -e "$config" ]]; then
       if [[ -L "$config" ]]; then
         local target=$(readlink "$config")
-        if [[ -e "$target" ]]; then
+        # Check if the symlink itself is valid (handles both absolute and relative paths)
+        if [[ -e "$config" ]]; then
           success "$name → linked correctly"
         else
           error "$name → broken link (target missing)"

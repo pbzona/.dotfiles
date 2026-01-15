@@ -1,0 +1,18 @@
+# Global Git configuration
+# This file is managed by dotfiles - edit there, not here
+
+[user]
+	name = Phil Zona
+	email = phil.zona@vercel.com
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
+[core]
+	hooksPath = ~/.config/git/hooks

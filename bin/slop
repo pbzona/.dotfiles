@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Toggle the ANTI-SLOP BOT pre-commit hook for the current repo
+set -euo pipefail
+
+DISABLE_FILE=".git/hooks/anti-slop-disable"
+
+if [[ ! -d .git ]]; then
+  echo "Error: not a git repository" >&2
+  exit 1
+fi
+
+case "${1:-}" in
+  on)
+    mkdir -p .git/hooks
+    touch "$DISABLE_FILE"
+    echo "Slop ON - pre-commit hook disabled for this repo"
+    ;;
+  off)
+    rm -f "$DISABLE_FILE"
+    echo "Slop OFF - pre-commit hook enabled for this repo"
+    ;;
+  *)
+    if [[ -f "$DISABLE_FILE" ]]; then
+      echo "Slop is ON (pre-commit hook disabled)"
+    else
+      echo "Slop is OFF (pre-commit hook enabled)"
+    fi
+    [[ -n "${1:-}" ]] && echo "Usage: slop [on|off]" >&2 && exit 1
+    ;;
+esac

@@ -94,6 +94,7 @@ EOF
       echo "  ~/.config/wezterm"
       echo "  ~/.config/ghostty"
       echo "  ~/.config/opencode"
+      echo "  ~/.config/git (global git config + hooks)"
       echo "  ~/.config/mise"
       echo ""
       info "You may need to restart your terminal for changes to take effect"

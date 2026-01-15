@@ -291,6 +291,92 @@ tmux-sessionizer ~/projects/myapp
 
 ---
 
+### slop
+
+**Purpose:** Toggle the ANTI-SLOP BOT pre-commit hook for the current repo
+
+**Usage:**
+```bash
+slop on   # Disable hook (allow slop)
+slop off  # Enable hook (reject slop)
+slop      # Check current status
+```
+
+**What it does:**
+- `on` - Creates `.git/hooks/anti-slop-disable` to skip the pre-commit hook
+- `off` - Removes that file to re-enable the hook
+- No args - Shows whether slop is currently allowed
+
+**Example:**
+```bash
+$ slop
+Slop is OFF (pre-commit hook enabled)
+
+$ slop on
+Slop ON - pre-commit hook disabled for this repo
+
+$ slop off
+Slop OFF - pre-commit hook enabled for this repo
+```
+
+---
+
+## Global Git Hooks
+
+### ANTI-SLOP BOT 2000 (pre-commit)
+
+**Location:** `~/.config/git/hooks/pre-commit`
+
+**Purpose:** AI-powered code review that runs before every commit to catch low-quality code.
+
+**What it catches:**
+- Security vulnerabilities (SQL injection, XSS, hardcoded secrets)
+- Obvious bugs (null derefs, off-by-one errors, race conditions)
+- Dead code (unused imports, unreachable code)
+- Debug statements left in production code
+- TODO/FIXME/HACK comments in new code
+- Empty catch blocks
+
+**What it ignores:**
+- Style preferences (not a linter)
+- Missing docs or test coverage
+- Existing code that wasn't changed
+
+**Environment Variables:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `ANTI_SLOP` | `1` | Set to `0` to disable entirely |
+| `ANTI_SLOP_TIMEOUT` | `90` | Seconds before timeout |
+| `ANTI_SLOP_MODEL` | `opus` | Model: `opus`, `sonnet`, `haiku` |
+| `ANTI_SLOP_MAX_LINES` | `2000` | Max diff lines (skips if exceeded) |
+
+**Bypass Options:**
+
+```bash
+# Skip once
+git commit --no-verify -m "msg"
+git commit -n -m "msg"
+
+# Disable for entire session
+ANTI_SLOP=0 git commit -m "msg"
+
+# Disable permanently for a repo
+slop on
+
+# Re-enable for a repo
+slop off
+
+# Check current status
+slop
+```
+
+**See also:** `slop` command in bin/
+
+**Dependencies:** claude CLI, jq
+
+---
+
 ## How to Add New Tools
 
 ### Quick Method (Using mkbin)

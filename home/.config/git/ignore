@@ -1,0 +1,5 @@
+# Global gitignore
+# This file is managed by dotfiles - edit there, not here
+
+# Claude/AI settings (may contain local paths/secrets)
+**/.claude/settings.local.json

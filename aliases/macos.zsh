@@ -8,5 +8,8 @@ alias p="pbpaste"
 alias mkdebug="[ -f .vscode/launch.json ] && mv .vscode/launch.json .vscode/launch.json.bak; mkdir -p .vscode && curl -s https://gist.githubusercontent.com/pbzona/026afabbb28a5acd013e0f1b95936d2f/raw > .vscode/launch.json"
 
 # Start a dangerous claude session for looping
+alias cc='claude'
 alias ccd='claude --dangerously-skip-permissions'
 
+# LOVE2D
+alias love="/Applications/love.app/Contents/MacOS/love"

@@ -1,5 +1,5 @@
 # Short
-alias c=clear
+alias cl=clear
 alias d=docker
 alias k=kubectl
 alias l="eza -1"
@@ -29,6 +29,7 @@ alias la="eza -lag --all --icons --git --color=always"
 # cd 
 alias ..="cd .."
 alias ...="cd ../.."
+alias ....="cd ../../.."
 alias back="cd -"
 alias proj="cd $PROJECTS"
 alias dot="cd $DOTFILES"
@@ -47,7 +48,7 @@ alias kgp="kubectl get pods"
 alias gs="git status"
 alias gc="git commit -m" # Must provide your own message
 alias gp="git push"
-alias gl="git log --oneline" 
+alias gl="git log --oneline"
 alias nope="git log --oneline | head -n 1 | cut -d' ' -f1 | xargs git revert"
 
 

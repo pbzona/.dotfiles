@@ -336,6 +336,8 @@ alias secret="openssl rand -hex 32"
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
+# Entire CLI shell completion
+autoload -Uz compinit && compinit && source <(entire completion zsh)
+
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof
-

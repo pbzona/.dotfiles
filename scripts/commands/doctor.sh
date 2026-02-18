@@ -101,6 +101,36 @@ EOF
     fi
   fi
 
+  if [[ $OS == "linux" ]]; then
+    if command -v apt &> /dev/null; then
+      success "apt available"
+
+      # Check if apt.txt packages are installed
+      if [[ -f "$DOTFILES/packages/apt.txt" ]]; then
+        local missing_apt=()
+        while IFS= read -r line; do
+          line="${line%%#*}"
+          line="$(echo "$line" | xargs)"
+          [[ -z "$line" ]] && continue
+          if ! dpkg -s "$line" &> /dev/null; then
+            missing_apt+=("$line")
+          fi
+        done < "$DOTFILES/packages/apt.txt"
+
+        if [[ ${#missing_apt[@]} -eq 0 ]]; then
+          success "All apt.txt packages installed"
+        else
+          warn "Missing apt packages: ${missing_apt[*]}"
+          echo "  Run: dot package sync"
+          has_issues=true
+        fi
+      fi
+    else
+      error "apt not available"
+      has_issues=true
+    fi
+  fi
+
   if command -v mise &> /dev/null; then
     success "mise: $(mise --version)"
   else
@@ -120,7 +150,11 @@ EOF
       error "$tool not found"
       has_issues=true
       if [[ "$tool" == "stow" ]]; then
-        echo "  Install: brew install stow"
+        if [[ $OS == "linux" ]]; then
+          echo "  Install: sudo apt install stow"
+        else
+          echo "  Install: brew install stow"
+        fi
       fi
     fi
   done
@@ -151,12 +185,18 @@ EOF
   local configs=(
     "$HOME/.zshrc"
     "$HOME/.tmux.conf"
-    "$HOME/.aerospace.toml"
     "$HOME/.config/nvim"
-    "$HOME/.config/wezterm"
-    "$HOME/.config/ghostty"
     "$HOME/.config/mise"
   )
+
+  # GUI configs only matter on macOS
+  if [[ $OS == "macos" ]]; then
+    configs+=(
+      "$HOME/.aerospace.toml"
+      "$HOME/.config/wezterm"
+      "$HOME/.config/ghostty"
+    )
+  fi
 
   for config in "${configs[@]}"; do
     local name=$(basename "$config")
@@ -188,7 +228,11 @@ EOF
 
   # Check 6: Broken Symlinks in Home
   echo "━━━ Broken Symlinks ━━━"
-  local broken_links=$(find "$HOME" -maxdepth 3 -type l ! -exec test -e {} \; -print 2>/dev/null | grep -v "Library\|\.Trash" || true)
+  local broken_link_filter=".Trash"
+  if [[ $OS == "macos" ]]; then
+    broken_link_filter="Library\|\.Trash"
+  fi
+  local broken_links=$(find "$HOME" -maxdepth 3 -type l ! -exec test -e {} \; -print 2>/dev/null | grep -v "$broken_link_filter" || true)
   if [[ -z "$broken_links" ]]; then
     success "No broken symlinks found"
   else

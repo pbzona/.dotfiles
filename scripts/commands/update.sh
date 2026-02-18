@@ -91,6 +91,40 @@ EOF
     fi
   fi
 
+  # Update apt packages (Linux)
+  if [[ $OS == "linux" ]]; then
+    info "Updating apt packages..."
+    if $dry_run; then
+      info "Would run: sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
+    else
+      sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+      success "apt packages updated"
+
+      # Check apt.txt sync
+      if [[ -f "$DOTFILES/packages/apt.txt" ]]; then
+        info "Checking apt.txt sync..."
+        local missing=()
+        while IFS= read -r line; do
+          line="${line%%#*}"
+          line="$(echo "$line" | xargs)"
+          [[ -z "$line" ]] && continue
+          if ! dpkg -s "$line" &> /dev/null; then
+            missing+=("$line")
+          fi
+        done < "$DOTFILES/packages/apt.txt"
+
+        if [[ ${#missing[@]} -eq 0 ]]; then
+          success "apt.txt in sync"
+        else
+          warn "apt.txt out of sync - missing: ${missing[*]}"
+          echo ""
+          info "Run 'dot package sync' to install missing packages"
+        fi
+      fi
+    fi
+    echo ""
+  fi
+
   # Update mise tools
   if command -v mise &> /dev/null; then
     info "Updating mise tools..."

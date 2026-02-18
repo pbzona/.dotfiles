@@ -53,3 +53,23 @@ detect_os() {
     exit 1
   fi
 }
+
+# Print the distro ID (e.g. "ubuntu", "debian"). Requires /etc/os-release.
+detect_distro() {
+  if [[ -f /etc/os-release ]]; then
+    . /etc/os-release
+    echo "${ID:-unknown}"
+  else
+    echo "unknown"
+  fi
+}
+
+# Print the distro version (e.g. "22.04", "24.04"). Requires /etc/os-release.
+detect_distro_version() {
+  if [[ -f /etc/os-release ]]; then
+    . /etc/os-release
+    echo "${VERSION_ID:-unknown}"
+  else
+    echo "unknown"
+  fi
+}

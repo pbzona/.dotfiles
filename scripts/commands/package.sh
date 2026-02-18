@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# Manage Brewfile packages
+# Manage system packages
+
+# Source lib for OS detection
+source "$DOTFILES/scripts/lib.sh"
+_PKG_OS=$(detect_os)
 
 cmd_package() {
   local subcommand="${1:-}"
@@ -34,29 +38,266 @@ cmd_package() {
 }
 
 package_help() {
+  if [[ $_PKG_OS == "macos" ]]; then
+    local pkg_file="Brewfile"
+  else
+    local pkg_file="apt.txt"
+  fi
+
   cat << EOF
-dot package - Manage Brewfile packages
+dot package - Manage system packages
 
 Usage:
   dot package <subcommand> [options]
 
 Subcommands:
-  add <package>      Add package to Brewfile and install
-  remove <package>   Remove package from Brewfile and uninstall
-  list               List all packages in Brewfile
-  sync               Sync installed packages with Brewfile
-  cleanup            Update Brewfile to match currently installed packages
+  add <package>      Add package to $pkg_file and install
+  remove <package>   Remove package from $pkg_file and uninstall
+  list               List all packages in $pkg_file
+  sync               Sync installed packages with $pkg_file
+  cleanup            Update $pkg_file to match currently installed packages (macOS only)
 
 Examples:
   dot package add bat           # Add and install bat
   dot package remove nushell    # Remove and uninstall nushell
-  dot package list              # Show all Brewfile packages
-  dot package sync              # Install missing Brewfile packages
-  dot package cleanup           # Update Brewfile with current packages
+  dot package list              # Show all managed packages
+  dot package sync              # Install missing packages
 EOF
 }
 
+# =============================================================================
+# Dispatch functions
+# =============================================================================
+
 package_add() {
+  if [[ $_PKG_OS == "macos" ]]; then
+    package_add_brew "$@"
+  else
+    package_add_apt "$@"
+  fi
+}
+
+package_remove() {
+  if [[ $_PKG_OS == "macos" ]]; then
+    package_remove_brew "$@"
+  else
+    package_remove_apt "$@"
+  fi
+}
+
+package_list() {
+  if [[ $_PKG_OS == "macos" ]]; then
+    package_list_brew "$@"
+  else
+    package_list_apt "$@"
+  fi
+}
+
+package_sync() {
+  if [[ $_PKG_OS == "macos" ]]; then
+    package_sync_brew "$@"
+  else
+    package_sync_apt "$@"
+  fi
+}
+
+package_cleanup() {
+  if [[ $_PKG_OS == "macos" ]]; then
+    package_cleanup_brew "$@"
+  else
+    warn "cleanup is not supported on Linux"
+    info "Edit $DOTFILES/packages/apt.txt directly"
+  fi
+}
+
+# =============================================================================
+# apt implementations
+# =============================================================================
+
+_apt_txt() { echo "$DOTFILES/packages/apt.txt"; }
+
+# Read apt.txt into an array, stripping comments and blanks
+_read_apt_packages() {
+  local packages=()
+  while IFS= read -r line; do
+    line="${line%%#*}"
+    line="$(echo "$line" | xargs)"
+    [[ -n "$line" ]] && packages+=("$line")
+  done < "$(_apt_txt)"
+  echo "${packages[@]}"
+}
+
+package_add_apt() {
+  local package="$1"
+  local dry_run=false
+
+  if [[ -z "$package" ]]; then
+    error "Package name required"
+    echo "Usage: dot package add <package>"
+    exit 1
+  fi
+
+  if [[ "${2:-}" == "--dry-run" ]] || [[ "$package" == "--dry-run" ]]; then
+    dry_run=true
+    package="${package/--dry-run/}"
+    package=$(echo "$package" | xargs)
+  fi
+
+  local apt_file="$(_apt_txt)"
+  if [[ ! -f "$apt_file" ]]; then
+    error "apt.txt not found at $apt_file"
+    exit 1
+  fi
+
+  # Check if already listed (ignoring comments)
+  if grep -qE "^${package}\s*(#.*)?$" "$apt_file"; then
+    warn "Package '$package' already in apt.txt"
+    exit 0
+  fi
+
+  info "Adding package: $package"
+
+  if $dry_run; then
+    warn "DRY RUN - Would add to apt.txt and install"
+    exit 0
+  fi
+
+  # Verify the package exists in apt
+  if ! apt-cache show "$package" &> /dev/null; then
+    error "Package '$package' not found in apt repositories"
+    exit 1
+  fi
+
+  echo "$package" >> "$apt_file"
+  sudo apt install -y "$package"
+
+  success "Package '$package' added and installed"
+  echo ""
+  info "apt.txt updated at: $apt_file"
+}
+
+package_remove_apt() {
+  local package="$1"
+  local dry_run=false
+
+  if [[ -z "$package" ]]; then
+    error "Package name required"
+    echo "Usage: dot package remove <package>"
+    exit 1
+  fi
+
+  if [[ "${2:-}" == "--dry-run" ]] || [[ "$package" == "--dry-run" ]]; then
+    dry_run=true
+    package="${package/--dry-run/}"
+    package=$(echo "$package" | xargs)
+  fi
+
+  local apt_file="$(_apt_txt)"
+  if [[ ! -f "$apt_file" ]]; then
+    error "apt.txt not found at $apt_file"
+    exit 1
+  fi
+
+  if ! grep -qE "^${package}\s*(#.*)?$" "$apt_file"; then
+    warn "Package '$package' not found in apt.txt"
+    exit 0
+  fi
+
+  info "Removing package: $package"
+
+  if $dry_run; then
+    warn "DRY RUN - Would remove from apt.txt and uninstall"
+    exit 0
+  fi
+
+  # Remove from apt.txt
+  local temp_file=$(mktemp)
+  grep -vE "^${package}\s*(#.*)?$" "$apt_file" > "$temp_file"
+  mv "$temp_file" "$apt_file"
+
+  sudo apt remove -y "$package"
+
+  success "Package '$package' removed"
+  echo ""
+  info "apt.txt updated at: $apt_file"
+}
+
+package_list_apt() {
+  local apt_file="$(_apt_txt)"
+  if [[ ! -f "$apt_file" ]]; then
+    error "apt.txt not found at $apt_file"
+    exit 1
+  fi
+
+  info "Packages in apt.txt:"
+  echo ""
+
+  local count=0
+  while IFS= read -r line; do
+    local stripped="${line%%#*}"
+    stripped="$(echo "$stripped" | xargs)"
+    [[ -z "$stripped" ]] && continue
+    if dpkg -s "$stripped" &> /dev/null; then
+      echo "  - $stripped (installed)"
+    else
+      echo "  - $stripped (missing)"
+    fi
+    ((count++))
+  done < "$apt_file"
+
+  echo ""
+  info "Total: $count packages"
+}
+
+package_sync_apt() {
+  local dry_run=false
+  if [[ "${1:-}" == "--dry-run" ]]; then
+    dry_run=true
+  fi
+
+  local apt_file="$(_apt_txt)"
+  if [[ ! -f "$apt_file" ]]; then
+    error "apt.txt not found at $apt_file"
+    exit 1
+  fi
+
+  info "Syncing packages with apt.txt..."
+
+  local packages=()
+  while IFS= read -r line; do
+    line="${line%%#*}"
+    line="$(echo "$line" | xargs)"
+    [[ -n "$line" ]] && packages+=("$line")
+  done < "$apt_file"
+
+  # Find missing packages
+  local missing=()
+  for pkg in "${packages[@]}"; do
+    if ! dpkg -s "$pkg" &> /dev/null; then
+      missing+=("$pkg")
+    fi
+  done
+
+  if [[ ${#missing[@]} -eq 0 ]]; then
+    success "All packages already installed"
+    return
+  fi
+
+  info "Missing packages: ${missing[*]}"
+
+  if $dry_run; then
+    warn "DRY RUN - Would install: ${missing[*]}"
+  else
+    sudo apt install -y "${missing[@]}"
+    success "Packages synced"
+  fi
+}
+
+# =============================================================================
+# Homebrew implementations (macOS)
+# =============================================================================
+
+package_add_brew() {
   local package="$1"
   local dry_run=false
 
@@ -67,7 +308,7 @@ package_add() {
   fi
 
   # Check if --dry-run flag
-  if [[ "$2" == "--dry-run" ]] || [[ "$package" == "--dry-run" ]]; then
+  if [[ "${2:-}" == "--dry-run" ]] || [[ "$package" == "--dry-run" ]]; then
     dry_run=true
     package="${package/--dry-run/}"
     package=$(echo "$package" | xargs)  # trim whitespace
@@ -112,7 +353,7 @@ package_add() {
   info "Brewfile updated at: $DOTFILES/packages/Brewfile"
 }
 
-package_remove() {
+package_remove_brew() {
   local package="$1"
   local dry_run=false
 
@@ -122,7 +363,7 @@ package_remove() {
     exit 1
   fi
 
-  if [[ "$2" == "--dry-run" ]] || [[ "$package" == "--dry-run" ]]; then
+  if [[ "${2:-}" == "--dry-run" ]] || [[ "$package" == "--dry-run" ]]; then
     dry_run=true
     package="${package/--dry-run/}"
     package=$(echo "$package" | xargs)
@@ -161,7 +402,7 @@ package_remove() {
   info "Brewfile updated at: $DOTFILES/packages/Brewfile"
 }
 
-package_list() {
+package_list_brew() {
   if [[ ! -f "$DOTFILES/packages/Brewfile" ]]; then
     error "Brewfile not found at $DOTFILES/packages/Brewfile"
     exit 1
@@ -183,10 +424,10 @@ package_list() {
   info "Total: $formula_count formulas, $cask_count casks"
 }
 
-package_sync() {
+package_sync_brew() {
   local dry_run=false
 
-  if [[ "$1" == "--dry-run" ]]; then
+  if [[ "${1:-}" == "--dry-run" ]]; then
     dry_run=true
   fi
 
@@ -210,10 +451,10 @@ package_sync() {
   fi
 }
 
-package_cleanup() {
+package_cleanup_brew() {
   local dry_run=false
 
-  if [[ "$1" == "--dry-run" ]]; then
+  if [[ "${1:-}" == "--dry-run" ]]; then
     dry_run=true
   fi
 

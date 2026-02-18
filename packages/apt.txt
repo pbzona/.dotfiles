@@ -1,0 +1,54 @@
+# Core apt packages for Ubuntu LTS servers
+# One package per line. Comments start with #.
+# Packages requiring third-party repos are handled by apt-extras.sh.
+
+# Core Development Tools
+git
+git-lfs
+curl
+wget
+libssl-dev
+build-essential
+unzip
+
+# Shell & Terminal
+zsh
+tmux
+fzf
+zoxide
+
+# Editor (PPA may be needed on 22.04 for a modern version)
+neovim
+
+# File & Text Processing
+bat
+fd-find
+ripgrep
+jq
+tree
+
+# System Utilities
+btop
+htop
+mtr-tiny
+nmap
+telnet
+tldr
+lsof
+
+# Docker
+docker.io
+
+# Data Tools
+redis-tools
+sqlite3
+
+# Networking
+dnsmasq
+lftp
+
+# Build tools
+libpq-dev
+
+# Dotfiles management
+stow

@@ -129,6 +129,59 @@ EOF
     fi
   fi
 
+  # Install apt packages (Linux only)
+  if [[ $OS == "linux" ]]; then
+    # Sudo check
+    if ! sudo -n true 2>/dev/null; then
+      info "Root privileges required for apt operations"
+      if ! sudo true; then
+        error "Cannot obtain sudo - aborting package installation"
+        if ! $dry_run; then
+          exit 1
+        fi
+      fi
+    fi
+
+    info "Updating apt package index..."
+    if $dry_run; then
+      info "Would run: sudo apt update"
+    else
+      sudo apt update
+      success "Package index updated"
+    fi
+
+    if [[ -f "$DOTFILES/packages/apt.txt" ]]; then
+      info "Installing packages from apt.txt..."
+      # Read packages, strip comments and blank lines
+      local apt_packages=()
+      while IFS= read -r line; do
+        line="${line%%#*}"        # strip comments
+        line="$(echo "$line" | xargs)"  # trim whitespace
+        [[ -n "$line" ]] && apt_packages+=("$line")
+      done < "$DOTFILES/packages/apt.txt"
+
+      if $dry_run; then
+        for pkg in "${apt_packages[@]}"; do
+          echo "  Would install: $pkg"
+        done
+      else
+        sudo apt install -y "${apt_packages[@]}"
+        success "apt.txt packages installed"
+      fi
+    fi
+
+    # Extra packages (third-party repos)
+    if [[ -f "$DOTFILES/packages/apt-extras.sh" ]]; then
+      info "Installing extra packages (third-party repos)..."
+      if $dry_run; then
+        bash "$DOTFILES/packages/apt-extras.sh" --dry-run
+      else
+        bash "$DOTFILES/packages/apt-extras.sh"
+        success "Extra packages installed"
+      fi
+    fi
+  fi
+
   # Install mise
   info "Installing mise..."
   if command -v mise &> /dev/null; then

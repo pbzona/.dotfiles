@@ -133,7 +133,9 @@ path=(
 
 # Weird homebrew shit - I don't want the full server installed, but there's a conflict
 # with the binary or something.
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+if [[ "$OS" == "macos" ]]; then
+  export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+fi
 
 # Remove duplicate entries
 typeset -U path
@@ -202,9 +204,11 @@ fi
 # =============================================================================
 
 # Need this in order for VS Code to properly switch binary versions, otherwise would use mise
-FNM_PATH="/opt/homebrew/opt/fnm/bin"
-if [ -d "$FNM_PATH" ]; then
-  eval "`fnm env`"
+if [[ "$OS" == "macos" ]]; then
+  FNM_PATH="/opt/homebrew/opt/fnm/bin"
+  if [ -d "$FNM_PATH" ]; then
+    eval "`fnm env`"
+  fi
 fi
 
 
@@ -272,7 +276,7 @@ fi
 # HASKELL
 # config.haskell
 # =============================================================================
-[ -f "/Users/phil/.ghcup/env" ] && . "/Users/phil/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
 
 # =============================================================================
 # ZOXIDE
@@ -337,7 +341,9 @@ zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
 # Entire CLI shell completion
-autoload -Uz compinit && compinit && source <(entire completion zsh)
+if command -v entire &> /dev/null; then
+  autoload -Uz compinit && compinit && source <(entire completion zsh)
+fi
 
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof

@@ -44,7 +44,7 @@ Commands:
   unlink      Remove dotfile symlinks
   doctor      Run diagnostics on dotfiles setup
   update      Update packages and tools
-  package     Manage Brewfile packages
+  package     Manage system packages
   help        Show this help message
 
 Options:

@@ -92,7 +92,7 @@ EOF
   if $dry_run; then
     info "Would create: ~/.local/{bin,share,state}"
   else
-    mkdir -p "$HOME/.local/{bin,share,state}"
+    mkdir -p "$HOME/.local/bin" "$HOME/.local/share" "$HOME/.local/state"
     export PATH="$HOME/.local/bin:$PATH"
     success "Created ~/.local directories"
   fi
@@ -221,6 +221,15 @@ EOF
       echo ""
       info "Install stow and run: dot link"
     else
+      # Back up existing dotfiles that would conflict with stow
+      local stow_conflicts=(".zshrc" ".tmux.conf" ".aerospace.toml")
+      for file in "${stow_conflicts[@]}"; do
+        if [[ -f "$HOME/$file" && ! -L "$HOME/$file" ]]; then
+          warn "Backing up existing $file to $file.bak"
+          mv "$HOME/$file" "$HOME/$file.bak"
+        fi
+      done
+
       source "$COMMANDS_DIR/link.sh"
       cmd_link
     fi

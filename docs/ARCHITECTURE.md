@@ -341,6 +341,7 @@ mycommand)
 ## 📚 Further Reading
 
 - [Setup & Validation Guide](SETUP_VALIDATION.md)
+- [Linux Server Setup](LINUX.md)
 - [Binary Tools](BIN_TOOLS.md)
 - [Asset Encryption](ASSET_ENCRYPTION.md)
 - [GNU Stow Manual](https://www.gnu.org/software/stow/manual/)

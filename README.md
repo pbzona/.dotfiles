@@ -111,6 +111,7 @@ This checks:
 
 - [**ARCHITECTURE.md**](docs/ARCHITECTURE.md) - How everything fits together (⭐ **START HERE**)
 - [SETUP_VALIDATION.md](docs/SETUP_VALIDATION.md) - Detailed setup guide
+- [LINUX.md](docs/LINUX.md) - Linux (Ubuntu LTS) server setup
 - [BIN_TOOLS.md](docs/BIN_TOOLS.md) - Custom command-line utilities
 - [ASSET_ENCRYPTION.md](docs/ASSET_ENCRYPTION.md) - Encryption workflow
 

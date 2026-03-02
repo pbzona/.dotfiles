@@ -18,7 +18,7 @@ erlang = "latest"
 go = "1.25"
 node = "24"
 python = "3.12"
-rust = "1.84"
+rust = "1.85"
 
 # Package Managers & Build Tools (version-sensitive)
 pnpm = "10.18"

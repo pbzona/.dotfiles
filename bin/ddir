@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Create a date-based directory structure: YEAR-MM-Abbr/DD/notes.md
+
+year=$(date +%Y)
+month=$(date +%m)
+abbrev=$(date +%b)
+day=$(date +%d)
+
+dir="$PWD/${year}-${month}-${abbrev}/${day}"
+
+mkdir -p "$dir"
+
+if [[ ! -f "$dir/notes.md" ]]; then
+  touch "$dir/notes.md"
+fi
+
+echo "$dir"

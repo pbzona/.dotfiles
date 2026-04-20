@@ -26,7 +26,7 @@ alias tx="tmuxinator"
 alias ls="eza"
 alias la="eza -lag --all --icons --git --color=always"
 
-# cd 
+# cd
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -50,7 +50,6 @@ alias gc="git commit -m" # Must provide your own message
 alias gp="git push"
 alias gl="git log --oneline"
 alias nope="git log --oneline | head -n 1 | cut -d' ' -f1 | xargs git revert"
-
 
 # miscellaneous
 alias chx="chmod +x"

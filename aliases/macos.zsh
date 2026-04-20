@@ -11,5 +11,8 @@ alias mkdebug="[ -f .vscode/launch.json ] && mv .vscode/launch.json .vscode/laun
 alias cc='claude'
 alias ccd='claude --dangerously-skip-permissions'
 
+# Opencode
+alias oc="opencode"
+
 # LOVE2D
 alias love="/Applications/love.app/Contents/MacOS/love"

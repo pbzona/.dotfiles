@@ -347,3 +347,9 @@ fi
 
 # Finish profiling
 [[ ! -z "$PROFILE_ZSH" ]] && zprof
+
+# bun completions
+[ -s "/opt/homebrew/share/zsh/site-functions/_bun" ] && source "/opt/homebrew/share/zsh/site-functions/_bun"
+
+# pzona.biz CLI
+export PATH="/Users/phil/Projects/pzona.biz/bin:$PATH"

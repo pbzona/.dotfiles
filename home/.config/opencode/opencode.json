@@ -18,6 +18,15 @@
         "next-devtools-mcp"
       ],
       "enabled": false
+    },
+    "dash-api": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "--from",
+        "git+https://github.com/Kapeli/dash-mcp-server.git",
+        "dash-mcp-server"
+      ]
     }
   }
 }

@@ -340,16 +340,11 @@ alias secret="openssl rand -hex 32"
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
-# Entire CLI shell completion
-if command -v entire &> /dev/null; then
-  autoload -Uz compinit && compinit && source <(entire completion zsh)
-fi
-
-# Finish profiling
-[[ ! -z "$PROFILE_ZSH" ]] && zprof
-
 # bun completions
 [ -s "/opt/homebrew/share/zsh/site-functions/_bun" ] && source "/opt/homebrew/share/zsh/site-functions/_bun"
 
 # pzona.biz CLI
 export PATH="/Users/phil/Projects/pzona.biz/bin:$PATH"
+
+# Finish profiling
+[[ ! -z "$PROFILE_ZSH" ]] && zprof

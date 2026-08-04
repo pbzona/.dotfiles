@@ -1,5 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "skills": {
+    "paths": [
+      "/Users/phil/Projects/godot-skills/skills"
+    ]
+  },
   "mcp": {
     "chrome-devtools": {
       "type": "local",
@@ -27,6 +32,21 @@
         "git+https://github.com/Kapeli/dash-mcp-server.git",
         "dash-mcp-server"
       ]
+    },
+    "blender-mcp": {
+      "type": "local",
+      "command": [
+        "uv",
+        "--directory",
+        "/Users/phil/Projects/3D/blender_mcp/mcp",
+        "run",
+        "blender-mcp"
+      ],
+      "enabled": true,
+      "environment": {
+        "BLENDER_MCP_HOST": "localhost",
+        "BLENDER_MCP_PORT": "9876"
+      }
     }
   }
 }

@@ -11,7 +11,7 @@
 
 [tools]
 # Core Runtimes/Languages
-bun = "1.3"
+bun = "latest"
 elixir = "latest"
 erlang = "latest"
 go = "1.25"

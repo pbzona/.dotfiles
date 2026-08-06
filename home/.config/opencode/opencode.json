@@ -27,6 +27,9 @@
     "dash-api": {
       "type": "local",
       "command": [
+        "/Users/phil/.local/bin/mise",
+        "exec",
+        "--",
         "uvx",
         "--from",
         "git+https://github.com/Kapeli/dash-mcp-server.git",
@@ -36,6 +39,9 @@
     "blender-mcp": {
       "type": "local",
       "command": [
+        "/Users/phil/.local/bin/mise",
+        "exec",
+        "--",
         "uv",
         "--directory",
         "/Users/phil/Projects/3D/blender_mcp/mcp",
@@ -44,6 +50,7 @@
       ],
       "enabled": true,
       "environment": {
+        "BLENDER_PATH": "/Applications/Blender.app/Contents/MacOS/Blender",
         "BLENDER_MCP_HOST": "localhost",
         "BLENDER_MCP_PORT": "9876"
       }

@@ -55,5 +55,8 @@
         "BLENDER_MCP_PORT": "9876"
       }
     }
+  },
+  "provider": {
+    "vercel": {}
   }
 }

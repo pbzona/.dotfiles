@@ -15,7 +15,8 @@ This document explains how the dotfiles system is organized and how all the piec
 │       ├── aerospace/
 │       ├── mise/
 │       ├── nvim/
-│       └── wezterm/
+│       ├── wezterm/
+│       └── herdr/
 ├── packages/             # Package management
 │   ├── Brewfile          # Main Homebrew packages
 │   └── Brewfile.work     # Work-specific packages (optional)
@@ -284,6 +285,7 @@ Everything else is managed via `packages/Brewfile` or mise.
 | `home/.config/mise/config.toml` | Tool versions |
 | `home/.config/nvim/` | Neovim config |
 | `home/.config/wezterm/` | Terminal config |
+| `home/.config/herdr/config.toml` | Optional Herdr keybindings |
 | `home/.aerospace.toml` | Window manager |
 | `scripts/commands/*.sh` | CLI command implementations |
 | `scripts/lib.sh` | Shared utilities |

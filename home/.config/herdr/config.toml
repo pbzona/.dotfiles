@@ -1,0 +1,57 @@
+# Optional Herdr configuration.
+# This is managed by the dotfiles repository and can coexist with tmux.
+
+[keys]
+# Match the prefix used by the tmux configuration.
+prefix = "ctrl+space"
+
+# Keep prefix+r as the reload shortcut. Herdr's resize mode moves to the
+# shifted variant so both actions remain available.
+reload_config = "prefix+r"
+resize_mode = "prefix+shift+r"
+
+# Use the tmux-sessionx-style picker shortcut while retaining Herdr's native
+# workspace picker shortcut. prefix+o is no longer used for notifications.
+workspace_picker = ["prefix+o", "prefix+w"]
+open_notification_target = ""
+
+# Vim-style pane movement, plus direct shortcuts that do not require the
+# prefix. Alt-arrow behavior depends on the outer terminal forwarding it.
+focus_pane_left = ["prefix+h", "ctrl+alt+h", "alt+left"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j", "alt+down"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k", "alt+up"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l", "alt+right"]
+
+# Match the tmux prefixless tab shortcuts while retaining Herdr's defaults.
+previous_tab = ["prefix+p", "shift+left"]
+next_tab = ["prefix+n", "shift+right"]
+switch_tab = "prefix+1..9"
+new_tab = "prefix+c"
+rename_tab = "prefix+shift+t"
+close_tab = "prefix+shift+x"
+
+# Workspace actions are Herdr's session-level equivalent.
+new_workspace = "prefix+shift+n"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+goto = "prefix+g"
+
+# Herdr's split actions use orientation names rather than tmux's flags:
+# vertical means side-by-side, while horizontal means stacked.
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+close_pane = "prefix+x"
+zoom = "prefix+z"
+
+# Preserve the basic tmux vi copy-mode workflow.
+copy_mode = "prefix+["
+edit_scrollback = "prefix+e"
+
+# Herdr owns mouse handling and inherits the focused pane's working directory
+# for new panes, tabs, and workspaces.
+[ui]
+mouse_capture = true
+copy_on_select = true
+
+[terminal]
+new_cwd = "follow"

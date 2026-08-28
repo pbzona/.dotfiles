@@ -69,6 +69,7 @@ home/.tmux.conf       → ~/.tmux.conf
 home/.aerospace.toml  → ~/.aerospace.toml
 home/.config/nvim     → ~/.config/nvim
 home/.config/wezterm  → ~/.config/wezterm
+home/.config/herdr/config.toml → ~/.config/herdr/config.toml
 ```
 
 ## 📋 What's Included
@@ -78,6 +79,7 @@ home/.config/wezterm  → ~/.config/wezterm
 - **Terminal**: WezTerm with custom config
 - **Editor**: Neovim (LazyVim + Bamboo theme)
 - **Multiplexer**: tmux with comprehensive keybinds
+- **Optional multiplexer**: Herdr with tmux-inspired keybinds
 - **Window Manager**: AeroSpace (macOS tiling)
 
 ### Package Management
@@ -157,6 +159,9 @@ Hey... \*lowers sunglasses\* I use neovim, you know. It's a pretty basic LazyVim
 
 ### tmux
 I've actually been using tmux for a while so this one is pretty comprehensive. Having experimented with Zellij (which is also very cool!) I still find that I prefer tmux.
+
+### Herdr
+Herdr is tracked as an optional tmux alternative. Its config keeps the same `Ctrl-Space` prefix, Vim-style pane movement, tab shortcuts, and pane split workflow without changing the tmux setup. Install Herdr separately, run `dot link`, and reload it with `herdr server reload-config`.
 
 ### .zshrc
 I found that Oh My Zsh became pretty slow, which I'm sure is a skill issue. The way I solved it was to use zinit and handle a lot more configuration myself, so there's quite a bit going on here. I added some profiling behavior so I can keep a better eye on this.

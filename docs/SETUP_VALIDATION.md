@@ -237,6 +237,23 @@ curl -fsSL https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux -o
 chmod +x ~/.local/bin/fzf-tmux
 ```
 
+### Herdr configuration (optional)
+
+Herdr is not required for the tmux setup and is not installed by `dot setup`.
+If Herdr is installed separately, link the tracked configuration and validate
+it with:
+
+```bash
+./dot link --dry-run
+./dot link
+herdr config check
+herdr server reload-config
+```
+
+The Herdr config preserves the tmux-style `Ctrl-Space` prefix and common pane,
+tab, split, and picker shortcuts. Tmux remains available with its existing
+configuration and plugins.
+
 ### Neovim/mise tools not working
 
 ```bash
@@ -273,6 +290,11 @@ After setup, verify these work:
 - [ ] Start tmux: `tmux`
 - [ ] Prefix + o (sessionx plugin)
 - [ ] Tmux plugins loaded: `ls ~/.tmux/plugins/`
+
+**Herdr (optional):**
+- [ ] `herdr --version`
+- [ ] `herdr config check`
+- [ ] `Ctrl-Space`, then `h/j/k/l` moves between panes
 
 **Symlinks:**
 - [ ] `ls -la ~/.zshrc` (should point to dotfiles)

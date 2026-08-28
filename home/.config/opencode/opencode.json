@@ -5,55 +5,17 @@
       "/Users/phil/Projects/godot-skills/skills"
     ]
   },
+  "tools": {
+    "executor_*": true
+  },
   "mcp": {
-    "chrome-devtools": {
+    "executor": {
       "type": "local",
       "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp"
+        "executor",
+        "mcp"
       ],
-      "enabled": false
-    },
-    "next-devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "next-devtools-mcp"
-      ],
-      "enabled": false
-    },
-    "dash-api": {
-      "type": "local",
-      "command": [
-        "/Users/phil/.local/bin/mise",
-        "exec",
-        "--",
-        "uvx",
-        "--from",
-        "git+https://github.com/Kapeli/dash-mcp-server.git",
-        "dash-mcp-server"
-      ]
-    },
-    "blender-mcp": {
-      "type": "local",
-      "command": [
-        "/Users/phil/.local/bin/mise",
-        "exec",
-        "--",
-        "uv",
-        "--directory",
-        "/Users/phil/Projects/3D/blender_mcp/mcp",
-        "run",
-        "blender-mcp"
-      ],
-      "enabled": true,
-      "environment": {
-        "BLENDER_PATH": "/Applications/Blender.app/Contents/MacOS/Blender",
-        "BLENDER_MCP_HOST": "localhost",
-        "BLENDER_MCP_PORT": "9876"
-      }
+      "enabled": true
     }
   },
   "provider": {

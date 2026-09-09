@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "executor": {
+      "command": "/Applications/Executor.app/Contents/Resources/executor/executor",
+      "args": ["mcp"],
+      "lifecycle": "lazy",
+      "directTools": true
+    }
+  }
+}

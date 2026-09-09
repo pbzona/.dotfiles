@@ -1,0 +1,9 @@
+{
+  "defaultProvider": "vercel-ai-gateway",
+  "defaultModel": "openai/gpt-5.6-sol",
+  "defaultThinkingLevel": "medium",
+  "theme": "dark",
+  "packages": [
+    "npm:pi-mcp-adapter@2.32.1"
+  ]
+}

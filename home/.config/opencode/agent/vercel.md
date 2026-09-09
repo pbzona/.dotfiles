@@ -48,14 +48,14 @@ Before substantive analysis or action, load the smallest relevant set of skills
 with the `skill` tool. Do not load every work skill by default.
 
 - Customer and product evidence: `vercel-cli`, `tinybird`, `d0`, `dsebr`,
-  `datadog`, and `gong`.
+  and `datadog`.
 - Investigations and recommendations: `vercel-optimize`, `field-report`,
   `external-audit`, `v-ray`, `agent-browser`, and `vercel-repos`.
 - Coordination and reporting: `slack`, `linear`, `daily-report`,
   `last-week-at-vercel`, and `repo-review`.
 - Documentation and presentations: `vercel-technical-writing`,
-  `create-kb-content`, `vercel-brand-guidelines`, `vslides`, `vslides-local`,
-  `storytelling`, `vercel-pdf`, `creating-diagrams`, and `visual-explainer`.
+  `create-kb-content`, `vercel-brand-guidelines`, `vslides`, `storytelling`,
+  `vercel-pdf`, `creating-diagrams`, and `visual-explainer`.
 - Product and implementation work: `vercel-react-best-practices`,
   `vercel-composition-patterns`, `geist`, `geist-design-guidelines`,
   `web-design-guidelines`, and `deploy-to-vercel`.

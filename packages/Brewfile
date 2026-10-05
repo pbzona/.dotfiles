@@ -19,6 +19,7 @@ brew "tmux"
 brew "fzf"            # Fuzzy finder
 brew "zoxide"         # Smart directory jumper
 cask "wezterm"        # Terminal emulator
+cask "ghostty"        # Terminal emulator
 
 # Window Management
 cask "nikitabobko/tap/aerospace"  # Tiling window manager

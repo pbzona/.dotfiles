@@ -69,6 +69,7 @@ home/.tmux.conf       → ~/.tmux.conf
 home/.aerospace.toml  → ~/.aerospace.toml
 home/.config/nvim     → ~/.config/nvim
 home/.config/wezterm  → ~/.config/wezterm
+home/.config/ghostty  → ~/.config/ghostty
 home/.config/herdr/config.toml → ~/.config/herdr/config.toml
 ```
 
@@ -76,7 +77,7 @@ home/.config/herdr/config.toml → ~/.config/herdr/config.toml
 
 ### Core Tools
 - **Shell**: zsh with custom configuration
-- **Terminal**: WezTerm with custom config
+- **Terminal**: WezTerm and Ghostty with custom configs
 - **Editor**: Neovim (LazyVim + Bamboo theme)
 - **Multiplexer**: tmux with comprehensive keybinds
 - **Optional multiplexer**: Herdr with tmux-inspired keybinds

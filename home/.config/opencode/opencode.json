@@ -20,5 +20,9 @@
   },
   "provider": {
     "vercel": {}
-  }
+  },
+  "plugin": [
+    "opencode-agent-memory",
+    "@tarquinen/opencode-dcp"
+  ]
 }

@@ -118,7 +118,7 @@ EOF
       info "Installing packages from Brewfile..."
       if $dry_run; then
         cd "$DOTFILES/packages"
-        brew bundle list | while IFS= read -r line; do
+        brew bundle list --all | while IFS= read -r line; do
           echo "  Would install: $line"
         done
       else

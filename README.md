@@ -70,6 +70,8 @@ home/.aerospace.toml  → ~/.aerospace.toml
 home/.config/nvim     → ~/.config/nvim
 home/.config/wezterm  → ~/.config/wezterm
 home/.config/ghostty  → ~/.config/ghostty
+home/.config/zed/settings.json → ~/.config/zed/settings.json
+home/.config/zed/keymap.json → ~/.config/zed/keymap.json
 home/.config/herdr/config.toml → ~/.config/herdr/config.toml
 ```
 
@@ -78,7 +80,7 @@ home/.config/herdr/config.toml → ~/.config/herdr/config.toml
 ### Core Tools
 - **Shell**: zsh with custom configuration
 - **Terminal**: WezTerm and Ghostty with custom configs
-- **Editor**: Neovim (LazyVim + Bamboo theme)
+- **Editors**: Neovim (LazyVim + Bamboo theme) and Zed with custom settings and keymap
 - **Multiplexer**: tmux with comprehensive keybinds
 - **Optional multiplexer**: Herdr with tmux-inspired keybinds
 - **Window Manager**: AeroSpace (macOS tiling)

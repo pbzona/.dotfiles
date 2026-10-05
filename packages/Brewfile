@@ -26,6 +26,7 @@ cask "nikitabobko/tap/aerospace"  # Tiling window manager
 
 # Editor
 brew "neovim"
+cask "zed"            # Code editor
 
 # Theorem Proving
 brew "elan-init"      # Lean version manager

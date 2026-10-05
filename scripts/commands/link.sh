@@ -38,7 +38,7 @@ Description:
   Uses GNU Stow to create symlinks from ~/dotfiles/home/ to your home directory.
   This will link all configuration files, including:
   - Shell configs (.zshrc, .tmux.conf)
-  - Application configs (.config/nvim, .config/wezterm, .config/ghostty, .config/opencode, etc.)
+  - Application configs (.config/nvim, .config/wezterm, .config/ghostty, .config/zed, .config/opencode, etc.)
   - Aerospace window manager config
 
   Stow will skip files that already exist and are identical.
@@ -93,6 +93,7 @@ EOF
       echo "  ~/.config/nvim"
       echo "  ~/.config/wezterm"
       echo "  ~/.config/ghostty"
+      echo "  ~/.config/zed (settings + keymap)"
       echo "  ~/.config/opencode"
       echo "  ~/.config/git (global git config + hooks)"
       echo "  ~/.config/mise"

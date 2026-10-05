@@ -7,6 +7,19 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "buffer_line_height": {
+    "custom": 1.5
+  },
+  "buffer_font_weight": 400.0,
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": false,
+    "anthropic_retention": false
+  },
+  "redact_private_values": false,
+  "on_new_window": "empty_tab",
+  "accessible_mode": false,
+  "disable_ai": true,
   "agent": {
     "favorite_models": [],
     "model_parameters": [],
@@ -59,6 +72,6 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Everforest Dark Hard (blur)",
+    "dark": "Rosé Pine Moon",
   },
 }
